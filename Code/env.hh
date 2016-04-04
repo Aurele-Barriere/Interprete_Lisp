@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdexcept>
 #include "object.hh"
 
 using namespace std;
@@ -29,3 +30,20 @@ public:
 };
 
 ostream& operator << (ostream& s, Environment& env);
+
+class No_Binding_Exception: public runtime_error {
+private:
+  string name;
+public:
+  No_Binding_Exception(string _name);
+  virtual ~No_Binding_Exception() throw () {}
+};
+
+class Zipping_Exception: public runtime_error {
+private:
+  string message;
+  Object lobjs;
+public:
+  Zipping_Exception(Object _lobjs, string _message);
+  virtual ~Zipping_Exception() throw () {}
+};
