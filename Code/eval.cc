@@ -88,6 +88,9 @@ Object do_plus(Object lvals) {
 }
 
 Object do_times(Object lvals) {
+  if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
+    throw Bad_Type_Exception(car(lvals), "Exception in *: not a number" );
+  }
   int a = Object_to_number(car(lvals));
   int b = Object_to_number(cadr(lvals));
   return number_to_Object(a * b);
