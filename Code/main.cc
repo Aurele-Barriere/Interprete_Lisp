@@ -26,11 +26,13 @@ int main() {
     try {
       cout << eval(l, env) << endl;
     } catch (const Evaluation_Exception except) {
-      cout << "Toplevel error: " << except.what() << endl;
+      cout << except.what() << endl;
     } catch (const No_Binding_Exception except) {
-      cout << "Toplevel error: " << except.what() << endl;
+      cout << except.what() << endl;
     } catch (const Zipping_Exception except) {
-      cout << "Toplevel error: " << except.what() << endl;
+      cout << except.what() << endl;
+    } catch (const Bad_Type_Exception except) {
+      cout << except.what() << endl;
     }
   } while (!feof(yyin));
 }

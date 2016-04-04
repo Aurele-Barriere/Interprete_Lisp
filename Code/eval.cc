@@ -79,6 +79,9 @@ Object eval_list(Object largs, Environment env) {
 
 
 Object do_plus(Object lvals) {
+  if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
+    throw Bad_Type_Exception(car(lvals), "Exception in +: not a number" );
+  }
   int a = Object_to_number(car(lvals));
   int b = Object_to_number(cadr(lvals));
   return number_to_Object(a + b);
@@ -115,8 +118,14 @@ Object apply(Object f, Object lvals, Environment env) {
 }
 
 Evaluation_Exception::Evaluation_Exception(Object _obj, Environment _env, string _message):
-    runtime_error("Evaluation error:" + _message) {
+    runtime_error("Evaluation error: " + _message) {
     obj = _obj;
     env = _env;
+    message = _message;
+  }
+
+Bad_Type_Exception::Bad_Type_Exception(Object _obj, string _message):
+    runtime_error("Evaluation error: " + _message) {
+    obj = _obj;
     message = _message;
   }
