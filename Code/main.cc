@@ -23,6 +23,10 @@ int main() {
     cout << "Lisp? " << flush;
     yyparse();
     Object l = just_read;
-    cout << eval(l, env) << endl;
+    try {
+      cout << eval(l, env) << endl;
+    } catch (Evaluation_Exception except) {
+      cout << "Toplevel error: " << except.what() << endl;
+    }
   } while (!feof(yyin));
 }
