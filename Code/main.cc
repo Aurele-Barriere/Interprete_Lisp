@@ -23,16 +23,21 @@ int main() {
     cout << "Lisp? " << flush;
     yyparse();
     Object l = just_read;
-    try {
-      cout << eval(l, env) << endl;
-    } catch (const Evaluation_Exception except) {
-      cout << except.what() << endl;
-    } catch (const No_Binding_Exception except) {
-      cout << except.what() << endl;
-    } catch (const Zipping_Exception except) {
-      cout << except.what() << endl;
-    } catch (const Bad_Type_Exception except) {
-      cout << except.what() << endl;
+    if (Object_to_string(car(l)) == "setq") {
+      env.add_new_binding(Object_to_string(cadr(l)), caddr(l));
+    }
+    else {
+      try {
+	cout << eval(l, env) << endl;
+      } catch (const Evaluation_Exception except) {
+	cout << except.what() << endl;
+      } catch (const No_Binding_Exception except) {
+	cout << except.what() << endl;
+      } catch (const Zipping_Exception except) {
+	cout << except.what() << endl;
+      } catch (const Bad_Type_Exception except) {
+	cout << except.what() << endl;
+      }
     }
   } while (!feof(yyin));
 }
