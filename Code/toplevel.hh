@@ -1,3 +1,2 @@
-void prompt();
 void toplevel();
 
