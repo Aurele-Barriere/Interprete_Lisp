@@ -88,6 +88,16 @@ Object do_plus(Object lvals) {
   return number_to_Object(a + b);
 }
 
+Object do_minus(Object lvals) {
+  if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
+    throw Bad_Type_Exception(car(lvals), "Exception in -: not a number" );
+  }
+  int a = Object_to_number(car(lvals));
+  int b = Object_to_number(cadr(lvals));
+  return number_to_Object(a - b);
+}
+
+
 Object do_times(Object lvals) {
   if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
     throw Bad_Type_Exception(car(lvals), "Exception in *: not a number" );
@@ -106,6 +116,7 @@ Object apply(Object f, Object lvals, Environment env) {
   if (symbolp(f)) {
     if (Object_to_string(f) == "+") return do_plus(lvals);
     if (Object_to_string(f) == "*") return do_times(lvals);
+    if (Object_to_string(f) == "-") return do_minus(lvals);
     Object new_f = env.find_value(Object_to_string(f));
     return apply(new_f, lvals, env);
   }
