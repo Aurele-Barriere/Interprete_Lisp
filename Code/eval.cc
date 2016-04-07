@@ -53,7 +53,7 @@ Object eval(Object l, Environment env) {
   if (null(l)) return l;
   if (numberp(l)) return l;
   if (stringp(l)) return l;
-  if (symbolp(l)) return eval(env.find_value(Object_to_string(l)), env);
+  if (symbolp(l)) return env.find_value(Object_to_string(l));
   assert(listp(l));
   Object f = car(l);
   if (symbolp(f)) {
@@ -65,6 +65,9 @@ Object eval(Object l, Environment env) {
       Object test_value = eval(test_part, env);
       if (null(test_value)) return eval(else_part, env);
       return eval(then_part, env);
+    }
+    if (Object_to_string(f) == "lambda") {
+      return l;
     }
 
   }
@@ -97,6 +100,13 @@ Object do_minus(Object lvals) {
   return number_to_Object(a - b);
 }
 
+Object do_equal(Object lvals) {
+  if (car(lvals) == cadr(lvals)) { //a faire
+    return number_to_Object(1);
+  }
+  return nil();
+}
+
 
 Object do_times(Object lvals) {
   if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
@@ -117,6 +127,7 @@ Object apply(Object f, Object lvals, Environment env) {
     if (Object_to_string(f) == "+") return do_plus(lvals);
     if (Object_to_string(f) == "*") return do_times(lvals);
     if (Object_to_string(f) == "-") return do_minus(lvals);
+    if (Object_to_string(f) == "=") return do_equal(lvals);
     Object new_f = env.find_value(Object_to_string(f));
     return apply(new_f, lvals, env);
   }
