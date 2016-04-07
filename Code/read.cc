@@ -7,7 +7,10 @@ extern Object just_read;
 extern "C" int yyparse();
 extern "C" FILE *yyin;
 
-Object read() {
+Object read(int * eof) {
   yyparse();
+  if (feof(yyin)) { //taking care of end of file
+    *eof = 1;
+  }
   return just_read;
 }

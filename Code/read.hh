@@ -3,4 +3,4 @@
 #include "env.hh"
 #include "eval.hh"
 
-Object read();
+Object read(int * eof);
