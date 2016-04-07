@@ -34,8 +34,8 @@ void Environment::add_new_binding(string name, Object value) {
 }
 void Environment::extend_env(Object lpars, Object lvals) {
   if (null(lpars) && null(lvals)) return;
-  if (null(lpars) && !null(lvals)) throw Zipping_Exception(lvals, "Too many values");
-  if (!null(lpars) && null(lvals)) throw Zipping_Exception(lpars, "Too many parameters");
+  if (null(lpars) && !null(lvals)) throw Zipping_Exception(lvals, "Too many arguments");
+  if (!null(lpars) && null(lvals)) throw Zipping_Exception(lpars, "Not enough arguments");
   add_new_binding(Object_to_string(car(lpars)), car(lvals));
   extend_env(cdr(lpars), cdr(lvals));
 }

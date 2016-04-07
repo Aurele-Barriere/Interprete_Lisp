@@ -53,7 +53,7 @@ Object eval(Object l, Environment env) {
   if (null(l)) return l;
   if (numberp(l)) return l;
   if (stringp(l)) return l;
-  if (symbolp(l)) return env.find_value(Object_to_string(l));
+  if (symbolp(l)) return eval(env.find_value(Object_to_string(l)), env);
   assert(listp(l));
   Object f = car(l);
   if (symbolp(f)) {
@@ -66,6 +66,7 @@ Object eval(Object l, Environment env) {
       if (null(test_value)) return eval(else_part, env);
       return eval(then_part, env);
     }
+
   }
   // It is a function applied to arguments
   Object vals = eval_list(cdr(l), env);
