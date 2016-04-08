@@ -1,6 +1,0 @@
-lisp
-lisp_lex.c
-lisp_yacc.c
-lisp_yacc.h
-*.o
-*~
