@@ -3,6 +3,7 @@
 #include <cassert>
 #include "eval.hh"
 #include "subr.hh"
+#include "exceptions.hh"
 
 using namespace std;
 
@@ -107,15 +108,3 @@ Object apply(Object f, Object lvals, Environment env) {
   assert(false);
 }
 
-Evaluation_Exception::Evaluation_Exception(Object _obj, Environment _env, string _message):
-    runtime_error("Evaluation error: " + _message) {
-    obj = _obj;
-    env = _env;
-    message = _message;
-  }
-
-Bad_Type_Exception::Bad_Type_Exception(Object _obj, string _message):
-    runtime_error("Evaluation error: " + _message) {
-    obj = _obj;
-    message = _message;
-  }

@@ -3,6 +3,7 @@
 #include <cassert>
 #include "eval.hh"
 #include "subr.hh"
+#include "exceptions.hh"
 
 
 Object do_plus(Object lvals) {

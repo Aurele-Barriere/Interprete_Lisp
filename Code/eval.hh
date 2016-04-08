@@ -21,21 +21,3 @@ Object eval(Object l, Environment env);
 Object apply(Object f, Object lvals, Environment env);
 Object eval_list(Object largs, Environment env);
 
-class Evaluation_Exception: public runtime_error {
-private:
-  Object obj;
-  Environment env;
-  string message;
-public:
-  Evaluation_Exception(Object _obj, Environment _env, string _message);
-  virtual ~Evaluation_Exception() throw () {}
-};
-
-class Bad_Type_Exception: public runtime_error {
-private:
-  Object obj;
-  string message;
-public:
-  Bad_Type_Exception(Object _obj, string _message);
-  virtual ~Bad_Type_Exception() throw () {}
-};
