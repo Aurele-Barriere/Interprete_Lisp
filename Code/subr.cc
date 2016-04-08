@@ -20,6 +20,9 @@ Object do_plus(Object lvals) {
 }
 
 Object do_minus(Object lvals) {
+  if (null(lvals) || null(cdr(lvals))) {
+    throw Zipping_Exception(lvals, "Not enough arguments for subroutine -");
+  }
   if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
     throw Bad_Type_Exception(car(lvals), "Exception in -: not a number" );
   }
@@ -30,6 +33,9 @@ Object do_minus(Object lvals) {
 
 
 Object do_times(Object lvals) {
+  if (null(lvals) || null(cdr(lvals))) {
+    throw Zipping_Exception(lvals, "Not enough arguments for subroutine *");
+  }
   if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
     throw Bad_Type_Exception(car(lvals), "Exception in *: not a number" );
   }
@@ -39,6 +45,9 @@ Object do_times(Object lvals) {
 }
 
 Object do_equal(Object lvals) {
+  if (null(lvals) || null(cdr(lvals))) {
+    throw Zipping_Exception(lvals, "Not enough arguments for subroutine =");
+  }
   if (numberp(car(lvals)) && numberp(cadr(lvals))) {
     int a = Object_to_number(car(lvals));
     int b = Object_to_number(cadr(lvals));
