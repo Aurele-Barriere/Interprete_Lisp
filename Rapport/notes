@@ -1,0 +1,24 @@
+FAIT :
+
+Rattraper erreurs d'évaluations avec des exceptions
+
+Séparer le toplevel du parsing du main
+
+Ajout des subroutines - et = (entier et string)
+
+Séparation des subroutines
+
+<Pas bon> eval récursif
+
+Appel de l'évaluation lors du setq
+
+Lambda est un cas particulier de l'évaluation
+
+
+
+A FAIRE :
+
+Certaines erreurs à rattraper (+ pas assez d'arguments)
+
+Extension
+
