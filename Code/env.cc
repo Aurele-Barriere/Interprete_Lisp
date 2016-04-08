@@ -3,6 +3,7 @@
 #include <string>
 #include <stdexcept>
 #include "env.hh"
+#include "exceptions.hh"
 
 using namespace std;
 
@@ -15,15 +16,7 @@ Object  Binding::get_value() const {
   return value;
 }
 
-No_Binding_Exception::No_Binding_Exception(string _name): runtime_error("No binding for name: " + _name) {
-  name = _name;
-}
 
-Zipping_Exception::Zipping_Exception(Object _lobjs, string _message): runtime_error("Zipping exception: " + _message) {
-  message = _message;
-  lobjs = _lobjs;
-  clog << message << ": " << lobjs << endl;
-}
 
 Environment::Environment() {
   contents = vector<Binding>();

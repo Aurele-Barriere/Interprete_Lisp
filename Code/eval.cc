@@ -2,6 +2,8 @@
 #include <string>
 #include <cassert>
 #include "eval.hh"
+#include "subr.hh"
+#include "exceptions.hh"
 
 using namespace std;
 
@@ -81,42 +83,6 @@ Object eval_list(Object largs, Environment env) {
   return cons(eval(car(largs), env), eval_list(cdr(largs), env));
 }
 
-
-Object do_plus(Object lvals) {
-  if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
-    throw Bad_Type_Exception(car(lvals), "Exception in +: not a number" );
-  }
-  int a = Object_to_number(car(lvals));
-  int b = Object_to_number(cadr(lvals));
-  return number_to_Object(a + b);
-}
-
-Object do_minus(Object lvals) {
-  if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
-    throw Bad_Type_Exception(car(lvals), "Exception in -: not a number" );
-  }
-  int a = Object_to_number(car(lvals));
-  int b = Object_to_number(cadr(lvals));
-  return number_to_Object(a - b);
-}
-
-Object do_equal(Object lvals) {
-  if (car(lvals) == cadr(lvals)) { //a faire
-    return number_to_Object(1);
-  }
-  return nil();
-}
-
-
-Object do_times(Object lvals) {
-  if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
-    throw Bad_Type_Exception(car(lvals), "Exception in *: not a number" );
-  }
-  int a = Object_to_number(car(lvals));
-  int b = Object_to_number(cadr(lvals));
-  return number_to_Object(a * b);
-}
-
 Object apply(Object f, Object lvals, Environment env) {
   clog << "\tapply: " << f << " " << lvals << env << endl;
 
@@ -142,16 +108,3 @@ Object apply(Object f, Object lvals, Environment env) {
   throw Evaluation_Exception(f, env, "Cannot apply a list");
   assert(false);
 }
-
-Evaluation_Exception::Evaluation_Exception(Object _obj, Environment _env, string _message):
-    runtime_error("Evaluation error: " + _message) {
-    obj = _obj;
-    env = _env;
-    message = _message;
-  }
-
-Bad_Type_Exception::Bad_Type_Exception(Object _obj, string _message):
-    runtime_error("Evaluation error: " + _message) {
-    obj = _obj;
-    message = _message;
-  }
