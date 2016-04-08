@@ -6,7 +6,11 @@
 #include "exceptions.hh"
 
 
+
 Object do_plus(Object lvals) {
+  if (null(lvals) || null(cdr(lvals))) {
+    throw Zipping_Exception(lvals, "Not enough arguments for subroutine +");
+  }
   if (!numberp(car(lvals)) || !numberp(cadr(lvals))){
     throw Bad_Type_Exception(car(lvals), "Exception in +: not a number" );
   }
