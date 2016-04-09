@@ -19,12 +19,12 @@ Lambda is a special case for evaluation
 
 Exception throwing in subroutines
 
-
-#TO DO
-
 Optional verbose mode
 
 Print environment
+
+
+#TO DO
 
 Bonus part
 
