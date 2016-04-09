@@ -6,6 +6,8 @@
 
 using namespace std;
 
+ extern int verbose;
+
 extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;
@@ -61,7 +63,7 @@ http://tldp.org/HOWTO/Lex-YACC-HOWTO-6.html
 */
 
 main:
-list_rpar expr          {$$ = $2; clog << "Read: " << $2 << endl; just_read = $$; YYACCEPT;}
+list_rpar expr          {$$ = $2; if (verbose) clog << "Read: " << $2 << endl; just_read = $$; YYACCEPT;}
 ;
 
 expr:

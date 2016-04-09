@@ -7,6 +7,8 @@
 
 using namespace std;
 
+int verbose = 0;
+
 bool numberp(Object l) {
   return l -> is_number();
 }
@@ -50,7 +52,7 @@ Object apply(Object f, Object lvals, Environment env);
 Object eval_list(Object largs, Environment env);
 
 Object eval(Object l, Environment env) {
-  clog << "\teval: " << l << env << endl;
+  if (verbose) clog << "\teval: " << l << env << endl;
 
   if (null(l)) return l;
   if (numberp(l)) return l;
@@ -84,7 +86,7 @@ Object eval_list(Object largs, Environment env) {
 }
 
 Object apply(Object f, Object lvals, Environment env) {
-  clog << "\tapply: " << f << " " << lvals << env << endl;
+  if (verbose) clog << "\tapply: " << f << " " << lvals << env << endl;
 
   if (null(f)) throw Evaluation_Exception(f, env, "Cannot apply nil");
   if (numberp(f)) throw Evaluation_Exception(f, env, "Cannot apply a number");

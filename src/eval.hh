@@ -6,6 +6,8 @@
 
 using namespace std;
 
+extern int verbose;
+
 bool numberp(Object l);
 bool stringp(Object l);
 bool symbolp(Object l);
