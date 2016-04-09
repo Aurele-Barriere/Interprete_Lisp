@@ -8,8 +8,8 @@
 
 using namespace std;
 extern int verbose;
-int using_file;
-char filename[255];
+extern int using_file;
+extern char filename[255];
 
 
 int parse_arguments(int argc, char * argv[]) {
@@ -21,7 +21,7 @@ int parse_arguments(int argc, char * argv[]) {
         break;
       case 'f':
         using_file = 1;
-        strcpy(optarg, filename);
+        strcpy(filename, optarg);
         break;
       case 'h':
         cout << "Basic Lisp Interpreter by Aurele Barriere & Jeremy Thibault" << endl;
