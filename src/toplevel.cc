@@ -29,6 +29,10 @@ void toplevel() {
     if (listp(l) && Object_to_string(car(l)) == "setq") {
       env.add_new_binding(Object_to_string(cadr(l)), eval(caddr(l), env));
     }
+    else if (listp(l) && Object_to_string(car(l)) == "printenv") {
+      env.print(cout);
+      cout << endl;
+    }
     else {
       try {
 	cout << eval(l, env) << endl;
