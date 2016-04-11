@@ -55,7 +55,7 @@ Cell *Cell::nil() {
 }
 
 Cell::Cell() {
-  make_cell_number(42); //For instance. Why not? :-)
+  make_cell_string(""); // Avoids a lot of problem: no 42 appearing everywhere
   check();
 }
 

@@ -65,3 +65,19 @@ string Object_to_string(Object l) {
   if (l -> is_symbol()) return l -> to_symbol();
   assert(false);
 }
+
+void print(Object l) {
+  if (l -> is_string()) {
+    cout << l->to_string();
+  } else if (l -> is_symbol()) {
+    cout << l->to_symbol();
+  } else if (l -> is_number()) {
+    cout << l->to_number();
+  } else if (l -> is_pair()) {
+    cout << "(";
+    print(l -> to_pair_item());
+    cout << " ";
+    print(l -> to_pair_next());
+    cout << ")";
+  }
+}
