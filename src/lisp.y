@@ -33,6 +33,8 @@ Object just_read;
 
 /* Declarations */
 
+%token END;
+
 %token <number_value> Token_number
 %token <string_value> Token_symbol
 %token <string_value> Token_string
@@ -64,6 +66,7 @@ http://tldp.org/HOWTO/Lex-YACC-HOWTO-6.html
 
 main:
 list_rpar expr          {$$ = $2; if (verbose) clog << "Read: " << $2 << endl; just_read = $$; YYACCEPT;}
+| END { YYABORT;}
 ;
 
 expr:
@@ -91,6 +94,11 @@ list_rpar:
 void yyerror(char const *s) {
   printf("yyerror: %s\n", s);
 }
+/*
+void yyrestart(FILE* f) {
+  yyin = f;
+  yylineno = 1;
+} */
 
 /*
 

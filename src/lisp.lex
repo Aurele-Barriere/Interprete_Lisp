@@ -22,7 +22,6 @@ char *erase_quotes(char *s) {
 
 %}
 
-%option noyywrap
 
 BLANK [ \t\n]
 LINE [^\n]*\n
@@ -50,4 +49,7 @@ COMMENT ;{LINE}
 {STRING}	{trace(STRING); yylval.string_value = erase_quotes(strdup(yytext)); return Token_string;}
 {COMMENT}	{trace(COMMENT);}
 
+<<EOF>> {return END;}
 %%
+
+int yywrap() {return 1;}
