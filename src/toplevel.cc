@@ -2,11 +2,7 @@
   Creating a toplevel
 */
 
-#include <cstdio>
-#include "object.hh"
-#include "env.hh"
-#include "eval.hh"
-#include "exceptions.hh"
+#include "toplevel.hh"
 
 using namespace std;
 
@@ -30,6 +26,9 @@ void toplevel_eval(Object l, Environment& env) {
     env.print(cout);
     cout << endl;
   }
+  else if (listp(l) && Object_to_string(car(l)) == "loadfile" && stringp(cadr(l))) {
+    eval_file((Object_to_string(cadr(l)).c_str()), env);
+  }
   else {
     try {
       cout << eval(l, env) << endl;
@@ -42,6 +41,18 @@ void toplevel_eval(Object l, Environment& env) {
     } catch (const Bad_Type_Exception except) {
       cout << except.what() << endl;
     }
+  }
+}
+
+void eval_file(const char* file, Environment& env) {
+  FILE* fh = fopen(file, "r");
+  if (fh != NULL) {
+    yyrestart(fh);
+    using_file = 1;
+    main_loop(env);
+    fclose(fh);
+    yyrestart(stdin);
+    using_file = 0;
   }
 }
 
@@ -65,14 +76,7 @@ void toplevel() {
   Environment env; //creating environment
 
   if (using_file) {
-    FILE* fh = fopen(filename, "r");
-    yyrestart(fh);
-
-    main_loop(env);
-
-    using_file = 0;
-    fclose(fh);
-    yyrestart(stdin);
+    eval_file(filename, env);
   }
 
   main_loop(env);

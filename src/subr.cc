@@ -60,7 +60,7 @@ Object do_equal(Object lvals) {
     if (!a.compare(b)) { return number_to_Object(1);}
     else {return nil();}
   }
-  
+
   throw Bad_Type_Exception(car(lvals), "Exception in =: not 2 numbers or 2 strings" );
 
 }

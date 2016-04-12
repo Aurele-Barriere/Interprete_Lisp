@@ -92,7 +92,7 @@ Object apply(Object f, Object lvals, Environment env) {
   if (numberp(f)) throw Evaluation_Exception(f, env, "Cannot apply a number");
   if (stringp(f)) throw Evaluation_Exception(f, env, "Cannot apply a string");
   if (symbolp(f)) {
-    
+
     if (Object_to_string(f) == "+") return do_plus(lvals);
     if (Object_to_string(f) == "*") return do_times(lvals);
     if (Object_to_string(f) == "-") return do_minus(lvals);

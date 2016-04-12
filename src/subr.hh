@@ -8,6 +8,7 @@
 #include <string>
 #include <cassert>
 #include "eval.hh"
+#include "toplevel.hh"
 
 Object do_plus(Object lvals);
 
