@@ -26,5 +26,11 @@ Print environment
 
 #TO DO
 
+more subroutines
+
+read function
+
+Demonstrations (?)
+
 Bonus part
 
