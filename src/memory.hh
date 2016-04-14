@@ -6,17 +6,18 @@
 
 using namespace std;
 
-#define MEMORY_SIZE 4096
+#define BASE_MEMORY_SIZE 30
 
-enum flag { free , taken };
+enum flag { not_taken , taken };
 
 
 class Memory {
 private:
-Cell cell_vect[MEMORY_SIZE];
-flag flags[MEMORY_SIZE];
+  Cell* cell_vect;
+  flag* flags;
+  unsigned size;
+
 public:
-Memory();
+  Memory();
   Object allocate_cell();
 };
-
