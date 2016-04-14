@@ -23,5 +23,5 @@ Bad_Type_Exception::Bad_Type_Exception(Object _obj, string _message):
     message = _message;
 }
 
-Memory_Exception::Memory_Exception(): runtime_error("Memory full") {
+Memory_Exception::Memory_Exception(): runtime_error("Memory error") {
 }
