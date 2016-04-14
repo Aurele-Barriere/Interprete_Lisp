@@ -19,3 +19,4 @@ public:
 Memory();
   Object allocate_cell();
 };
+

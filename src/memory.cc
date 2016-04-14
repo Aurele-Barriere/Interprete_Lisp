@@ -17,6 +17,8 @@ Object Memory::allocate_cell() {
   int i;
   for (i=0; i<MEMORY_SIZE; i++) {
     if (flags[i] == free) {
+      cout << "allocated cell number " << i << endl;
+      flags[i] = taken;
       return &(cell_vect[i]);
     }
   }

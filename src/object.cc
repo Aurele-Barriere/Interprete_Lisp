@@ -2,8 +2,11 @@
 #include <cassert>
 #include <string>
 #include "object.hh"
+#include "memory.hh"
 
 using namespace std;
+
+Memory mem;
 
 Object nil() {
   return Cell::nil();
@@ -14,7 +17,8 @@ bool null(Object l) {
 }
 
 Object cons(Object a, Object l) {
-  Object p = new Cell();
+  //Object p = new Cell();
+  Object p = mem.allocate_cell();
   p -> make_cell_pair(a, l);
   return p;
 }
@@ -38,19 +42,22 @@ bool is_empty(Object l) {
 }
 
 Object number_to_Object(int n) {
-  Object p = new Cell();
+  //Object p = new Cell();
+  Object p = mem.allocate_cell();
   p -> make_cell_number(n);
   return p;
 }
 
 Object string_to_Object(string s) {
-  Object p = new Cell();
+  //Object p = new Cell();
+  Object p = mem.allocate_cell();
   p -> make_cell_string(s);
   return p;
 }
 
 Object symbol_to_Object(string s) {
-  Object p = new Cell();
+  //Object p = new Cell();
+  Object p = mem.allocate_cell();
   p -> make_cell_symbol(s);
   return p;
 }

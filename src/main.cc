@@ -5,11 +5,13 @@
 #include "env.hh"
 #include "eval.hh"
 #include "toplevel.hh"
+#include "memory.hh"
 
 using namespace std;
 extern int verbose;
 extern int using_file;
 extern char filename[255];
+extern Memory mem;
 
 
 int parse_arguments(int argc, char * argv[]) {
