@@ -1,4 +1,5 @@
 #include "memory.hh"
+#include "exceptions.hh"
 #include <iostream>
 
 using namespace std;
@@ -12,5 +13,12 @@ Memory::Memory() {
   }
 }
 
-void Memory::allocate_cell() {
+Object Memory::allocate_cell() {
+  int i;
+  for (i=0; i<MEMORY_SIZE; i++) {
+    if (flags[i] == free) {
+      return &(cell_vect[i]);
+    }
+  }
+  throw Memory_Exception();
 }

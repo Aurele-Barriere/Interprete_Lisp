@@ -17,5 +17,5 @@ Cell cell_vect[MEMORY_SIZE];
 flag flags[MEMORY_SIZE];
 public:
 Memory();
-  void allocate_cell();
+  Object allocate_cell();
 };

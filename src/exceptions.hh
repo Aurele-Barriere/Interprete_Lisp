@@ -44,3 +44,10 @@ public:
   Bad_Type_Exception(Object _obj, string _message);
   virtual ~Bad_Type_Exception() throw () {}
 };
+
+class Memory_Exception: public runtime_error {
+private:
+public:
+  Memory_Exception();
+  virtual ~Memory_Exception() throw () {}
+};

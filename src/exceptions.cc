@@ -15,11 +15,13 @@ Evaluation_Exception::Evaluation_Exception(Object _obj, Environment _env, string
     obj = _obj;
     env = _env;
     message = _message;
-  }
+}
 
 Bad_Type_Exception::Bad_Type_Exception(Object _obj, string _message):
     runtime_error("Evaluation error: " + _message) {
     obj = _obj;
     message = _message;
-  }
+}
 
+Memory_Exception::Memory_Exception(): runtime_error("Memory full") {
+}
