@@ -13,5 +13,53 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
+\newpage
+
+\section{Partie obligatoire : interprète à liaison dynamique}
+
+\subsection{Exceptions}
+La première amélioration de notre toplevel fut de rattraper toutes les exceptions lancées par le programme. En effet, il ne fallait pas que l'interprète s'arrête si l'utilisateur fait une erreur : nous voulions qu'il lui indique le type d'erreur, l'objet concerné et qu'il continue à s'éxécuter.
+
+Ainsi, nous avons créé un module \texttt{exceptions} contenant tous les types d'exceptions (des classes différentes) : exceptions liées à l'absence d'arguments, à un problème de typage, à un manque de liaisons dans l'environnement etc...
+
+Ensuite, dans l'exécution du toplevel, on rattrape ces exceptions et on affiche les messages d'erreurs correspondant.
+
+\subsection{Organisation du toplevel}
+
+Dans le code initial, le fichier \texttt{main} contenait le toplevel et l'appel au parseur mélangés. Nous avons séparés ça.
+
+Nous avons ainsi créé un module \texttt{toplevel} contenant une fonction \texttt{toplevel()} qui sera appelée dans le \texttt{main}. Ce module fait appel aux fonctions de bison pour parser un fichier donné.
+
+\subsection{Subroutines}
+
+Nous avons également eu besoin de rajouter des subroutines : au moins $-$ et $=$ étaient nécessaires pour implémenter des fonctions récursives.
+
+Nous en avons profités pour séparer toutes les subroutines de l'évaluation dans un module distinct.
+
+\subsection{La directive setq}
+
+Pour ajouter des liaisons dans l'environnement courant, nous avons du ajouter un cas particulier à l'évaluation : \texttt{setq}. 
+
+Lorsque l'utilisateur utilise cette commande, on évalue le deuxième argument, et on crée la liaison entre le premier argument et l'objet évalué.
+
+%à rajouter : traitement du cas lambda a l'évaluation
+
+\subsection{Mode verbeux et affichage d'environnement}
+
+Nous avons également laissé à l'utilisateur la possibilité d'activer le mode verbeux (qui indique chaque appel d'évaluation ou d'application de fonction) avec un argument optionnel.
+
+Une commande est également disponible pour afficher l'environnement courant.
+
+
+\section{Partie optionnelle : extensions}
+
+Nous avons choisi d'étudier la gestion mémoire de notre interpréteur.
+
+\subsection{Allocation de cellules}
+
+\subsection{Garbage collector}
+
+\subsection{Mise en oeuvre et tests}
 
 \end{document}
