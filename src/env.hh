@@ -25,6 +25,9 @@ public:
   void extend_env(Object lpars, Object lvals);
   Object find_value(string name);
   void print(ostream& s);
+  unsigned size();
+  Binding at(unsigned i);
+  Binding operator[] (unsigned i);
 };
 
 ostream& operator << (ostream& s, Environment& env);

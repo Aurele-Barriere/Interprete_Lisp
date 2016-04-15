@@ -59,3 +59,35 @@ Cell* Memory::at(unsigned i) {
   assert(i < size);
   return &(cell_vect[i]);
 }
+
+void Memory::garbage_collection_aux(bool* seen, Object p) {
+  seen[p] = true;
+  if (cell_vect[p].is_pair()) {
+    garbage_collection_aux(seen, cell_vect[p].to_pair_item());
+    garbage_collection_aux(seen, cell_vect[p].to_pair_next());
+  }
+}
+
+void Memory::garbage_collection(Environment env) {
+
+  bool* seen = (bool*) malloc(size * sizeof(bool));
+  assert(seen);
+
+  for (unsigned i = 0; i < size; i++) {
+    seen[i] = false;
+  }
+  for (unsigned i = 0; i < env.size(); i++) {
+    garbage_collection_aux(seen, env[i].get_value());
+  }
+
+  unsigned cnt = 0;
+  // begins at 1 because we do not want to free the first cell (nil)
+  for (unsigned i = 1; i < size; i++) {
+    if (!seen[i]) {
+      cnt++;
+      flags[i] = not_taken;
+    }
+  }
+  cout << "freed " << cnt << " cells" << endl;
+
+}

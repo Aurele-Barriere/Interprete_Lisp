@@ -62,6 +62,8 @@ void eval_file(const char* file, Environment& env) {
 
 void main_loop(Environment& env) {
 
+  unsigned i = 0;
+
   if (!using_file) {
     prompt();
   }
@@ -69,9 +71,14 @@ void main_loop(Environment& env) {
   while (yyparse() == 0) {
     Object l = just_read;
     toplevel_eval(l, env);
+    if (++i % 3 == 0) {
+      cout << "collecting garbage" << endl;
+      mem.garbage_collection(env);
+    }
     if (!using_file) {
       prompt();
     }
+
   }
 
 }

@@ -42,6 +42,20 @@ void Environment::print(ostream& s) {
   }
 }
 
+unsigned Environment::size() {
+  return contents.size();
+}
+
+Binding Environment::at(unsigned i) {
+  assert(i < size());
+  return contents.at(i);
+}
+
+Binding Environment::operator[] (unsigned i) {
+  return at(i);
+}
+
+
 ostream& operator << (ostream& s, Environment& env) {
   env.print(s);
   return s;
