@@ -1,8 +1,10 @@
 #pragma once
 
-#include "cell.hh"
+#include <iostream>
+#include <cassert>
+#include <string>
 
-typedef Cell* Object;
+typedef unsigned Object;
 
 Object nil();
 bool null(Object l);
@@ -14,10 +16,10 @@ Object empty();
 bool is_empty(Object l);
 
 Object number_to_Object(int n);
-Object string_to_Object(string s);
-Object symbol_to_Object(string s);
+Object string_to_Object(std::string s);
+Object symbol_to_Object(std::string s);
 
 int Object_to_number(Object l);
-string Object_to_string(Object l);
+std::string Object_to_string(Object l);
 
 void print(Object l);

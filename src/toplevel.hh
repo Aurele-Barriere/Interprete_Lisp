@@ -3,8 +3,6 @@
 #include <cstdio>
 #include "object.hh"
 #include "env.hh"
-#include "eval.hh"
-#include "exceptions.hh"
 
 void prompt();
 void toplevel_eval(Object l, Environment& env);

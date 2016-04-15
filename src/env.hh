@@ -1,11 +1,8 @@
 #pragma once
 
 #include <iostream>
-#include <string>
 #include <vector>
-#include <stdexcept>
 #include "object.hh"
-
 
 using namespace std;
 
@@ -31,4 +28,3 @@ public:
 };
 
 ostream& operator << (ostream& s, Environment& env);
-

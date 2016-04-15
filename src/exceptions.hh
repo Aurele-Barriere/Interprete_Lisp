@@ -2,11 +2,11 @@
 
 #include <stdexcept>
 #include <string>
-#include "object.hh"
 #include "env.hh"
 
+using namespace std;
 /*
-  Exceptions 
+  Exceptions
 */
 
 class No_Binding_Exception: public runtime_error {

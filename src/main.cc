@@ -1,11 +1,9 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
-#include "object.hh"
-#include "env.hh"
-#include "eval.hh"
 #include "toplevel.hh"
 #include "memory.hh"
+
 
 using namespace std;
 extern int verbose;

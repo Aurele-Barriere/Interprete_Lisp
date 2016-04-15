@@ -5,10 +5,7 @@
 */
 
 
-#include <string>
-#include <cassert>
-#include "eval.hh"
-#include "toplevel.hh"
+#include "object.hh"
 
 Object do_plus(Object lvals);
 
