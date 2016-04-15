@@ -3,6 +3,9 @@
 */
 
 #include "toplevel.hh"
+#include "memory.hh"
+#include "eval.hh"
+#include "exceptions.hh"
 
 using namespace std;
 
@@ -13,6 +16,7 @@ extern "C" int yylineno;
 void yyrestart(FILE *new_file);
 extern Object just_read;
 extern "C" int yyparse();
+extern Memory mem;
 
 void prompt() {
   cout << "Lisp? " << flush;
@@ -31,7 +35,7 @@ void toplevel_eval(Object l, Environment& env) {
   }
   else {
     try {
-      cout << eval(l, env) << endl;
+      cout << mem.at(eval(l, env)) << endl;
     } catch (const Evaluation_Exception except) {
       cout << except.what() << endl;
     } catch (const No_Binding_Exception except) {

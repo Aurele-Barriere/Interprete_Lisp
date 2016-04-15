@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdexcept>
+
 #include "object.hh"
 #include "env.hh"
 
@@ -22,4 +22,3 @@ Object cadddr(Object l);
 Object eval(Object l, Environment env);
 Object apply(Object f, Object lvals, Environment env);
 Object eval_list(Object largs, Environment env);
-

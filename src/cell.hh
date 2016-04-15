@@ -2,8 +2,12 @@
 
 #include <iostream>
 #include <string>
+#include <cassert>
+#include <cstring> // For strdup
 
 using namespace std;
+
+typedef unsigned Object;
 
 class Cell {
 private:
@@ -11,8 +15,8 @@ private:
   cell_sort sort;
 
   struct cell_pair {
-    Cell *item;
-    Cell *next;
+    Object item;
+    Object next;
   };
 
   union cell_value {
@@ -39,16 +43,15 @@ public:
   int to_number() const;
   string to_string() const;
   string to_symbol() const;
-  Cell *to_pair_item() const;
-  Cell *to_pair_next() const;
+  Object to_pair_item() const;
+  Object to_pair_next() const;
 
   static Cell *nil();
 
   void make_cell_number(int a);
   void make_cell_string(string s);
   void make_cell_symbol(string s);
-  void make_cell_pair(Cell* p, Cell* q);
+  void make_cell_pair(Object p, Object q);
 };
 
 ostream& operator << (ostream& s, const Cell *p);
-

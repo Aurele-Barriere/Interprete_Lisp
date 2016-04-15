@@ -1,10 +1,6 @@
 #pragma once
 
 #include "cell.hh"
-#include "object.hh"
-#include <vector>
-
-using namespace std;
 
 #define BASE_MEMORY_SIZE 30
 
@@ -20,4 +16,5 @@ private:
 public:
   Memory();
   Object allocate_cell();
+  Cell* at(unsigned i);
 };

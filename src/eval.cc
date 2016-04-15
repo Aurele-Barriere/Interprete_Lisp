@@ -2,27 +2,29 @@
 #include <string>
 #include <cassert>
 #include "eval.hh"
-#include "subr.hh"
+#include "memory.hh"
 #include "exceptions.hh"
+#include "subr.hh"
 
 using namespace std;
 
 int verbose = 0;
+extern Memory mem;
 
 bool numberp(Object l) {
-  return l -> is_number();
+  return mem.at(l)->is_number();
 }
 
 bool stringp(Object l) {
-  return l -> is_string();
+  return mem.at(l)->is_string();
 }
 
 bool symbolp(Object l) {
-  return l -> is_symbol();
+  return mem.at(l)->is_symbol();
 }
 
 bool listp(Object l) {
-  return l -> is_pair();
+  return mem.at(l)->is_pair();
 }
 
 Object cadr(Object l) {

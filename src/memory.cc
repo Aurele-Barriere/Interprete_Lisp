@@ -1,7 +1,6 @@
 #include "memory.hh"
-#include "exceptions.hh"
-#include <iostream>
 #include <cstdlib>
+#include "exceptions.hh"
 
 using namespace std;
 
@@ -20,6 +19,9 @@ Memory::Memory() {
   for (unsigned i = 0; i< size; i++) {
     flags[i] = not_taken;
   }
+
+  flags[0] = taken; // Empty cell
+  cell_vect[0] = Cell();
 }
 
 Object Memory::allocate_cell() {
@@ -28,7 +30,7 @@ Object Memory::allocate_cell() {
     if (flags[i] == not_taken) {
       cout << "allocated cell number " << i << endl;
       flags[i] = taken;
-      return &(cell_vect[i]);
+      return i;
     }
   }
 
@@ -50,5 +52,10 @@ Object Memory::allocate_cell() {
   cout << "allocated cell number " << i << endl;
   flags[i] = taken;
   size += BASE_MEMORY_SIZE;
+  return i;
+}
+
+Cell* Memory::at(unsigned i) {
+  assert(i < size);
   return &(cell_vect[i]);
 }

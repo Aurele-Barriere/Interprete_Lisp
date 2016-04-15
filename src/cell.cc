@@ -1,10 +1,9 @@
-#include <iostream>
-#include <cassert>
-#include <string>
-#include <cstring> // For strdup
 #include "cell.hh"
+#include "memory.hh"
 
 using namespace std;
+
+extern Memory mem;
 
 void Cell::check() {} // To be filled up!
 
@@ -40,19 +39,19 @@ string Cell::to_symbol() const {
   return string(value.as_symbol);
 }
 
-Cell *Cell::to_pair_item() const {
+Object Cell::to_pair_item() const {
   assert(is_pair());
   return value.as_pair.item;
 }
 
-Cell *Cell::to_pair_next() const {
+Object Cell::to_pair_next() const {
   assert(is_pair());
   return value.as_pair.next;
 }
 
-Cell *Cell::nil() {
-  return &cell_nil;
-}
+// Cell *Cell::nil() {
+//   return &cell_nil;
+// }
 
 Cell::Cell() {
   make_cell_string(""); // Avoids a lot of problem: no 42 appearing everywhere
@@ -76,7 +75,7 @@ void Cell::make_cell_symbol(string s) {
   value.as_symbol = p;
 }
 
-void Cell::make_cell_pair(Cell* p, Cell* q) {
+void Cell::make_cell_pair(Object p, Object q) {
   sort = PAIR;
   cell_pair c;
   c.item = p;
@@ -90,17 +89,17 @@ static ostream& print_cell_pointer(ostream& s, const Cell *p);
 
 static ostream& print_cell_pointer_aux(ostream& s, const Cell *p) {
   assert(p -> is_pair());
-  for (const Cell *pp = p;; pp = pp -> to_pair_next()) {
-    if (pp == Cell::nil()) break;
-    print_cell_pointer(s, pp -> to_pair_item());
-    if (pp -> to_pair_next() == Cell::nil()) break;
+  for (const Cell *pp = p;; pp = mem.at(pp -> to_pair_next())) {
+    if (pp == mem.at(0)) break;
+    print_cell_pointer(s, mem.at(pp -> to_pair_item()));
+    if (mem.at(pp -> to_pair_next()) == mem.at(0)) break;
     s << " " << flush;
   }
   return s;
 }
 
 static ostream& print_cell_pointer(ostream& s, const Cell *p) {
-  if (p == Cell::nil()) return s << "nil" << flush;
+  if (p == mem.at(0)) return s << "nil" << flush;
   if (p -> is_number()) return s << p -> to_number() << flush;
   if (p -> is_string()) return s << p -> to_string() << flush;
   if (p -> is_symbol()) return s << p -> to_symbol() << flush;
