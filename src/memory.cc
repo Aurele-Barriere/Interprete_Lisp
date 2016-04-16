@@ -4,6 +4,8 @@
 
 using namespace std;
 
+int memory_verbose = 0;
+
 Memory::Memory() {
   size = BASE_MEMORY_SIZE;
   cout << "Creating Memory" << endl;
@@ -28,13 +30,13 @@ Object Memory::allocate_cell() {
   unsigned i;
   for (i=0; i<size; i++) {
     if (flags[i] == not_taken) {
-      cout << "allocated cell number " << i << endl;
+      if (memory_verbose) cout << "allocated cell number " << i << endl;
       flags[i] = taken;
       return i;
     }
   }
 
-  cout << "increasing memory size" << endl;
+  if (memory_verbose) cout << "increasing memory size" << endl;
   Cell* cell_vect_temp = (Cell*) realloc(cell_vect, (size+BASE_MEMORY_SIZE) * sizeof(Cell));
   flag* flags_temp = (flag*) realloc(flags, (size+BASE_MEMORY_SIZE) * sizeof(flag));
 
@@ -49,7 +51,7 @@ Object Memory::allocate_cell() {
     flags[j] = not_taken;
   }
 
-  cout << "allocated cell number " << i << endl;
+  if (memory_verbose) cout << "allocated cell number " << i << endl;
   flags[i] = taken;
   size += BASE_MEMORY_SIZE;
   return i;
@@ -69,7 +71,7 @@ void Memory::garbage_collection_aux(bool* seen, Object p) {
 }
 
 void Memory::garbage_collection(Environment env) {
-
+  if (memory_verbose) cout << "collecting garbage" << endl;
   bool* seen = (bool*) malloc(size * sizeof(bool));
   assert(seen);
 
@@ -88,6 +90,6 @@ void Memory::garbage_collection(Environment env) {
       flags[i] = not_taken;
     }
   }
-  cout << "freed " << cnt << " cells" << endl;
+  if (memory_verbose) cout << "freed " << cnt << " cells" << endl;
 
 }

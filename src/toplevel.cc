@@ -72,7 +72,7 @@ void main_loop(Environment& env) {
     Object l = just_read;
     toplevel_eval(l, env);
     if (++i % 3 == 0) {
-      cout << "collecting garbage" << endl;
+      
       mem.garbage_collection(env);
     }
     if (!using_file) {
