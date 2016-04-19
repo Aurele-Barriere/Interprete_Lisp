@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
+#include <cstdlib>
 #include "toplevel.hh"
 #include "memory.hh"
 
@@ -55,4 +56,5 @@ int main(int argc, char * argv[]) {
     }
     toplevel();
   }
+  return 0;
 }
