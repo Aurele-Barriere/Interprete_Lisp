@@ -34,6 +34,7 @@ private:
 
 public:
   Cell();
+  ~Cell();
 
   bool is_number() const;
   bool is_string() const;

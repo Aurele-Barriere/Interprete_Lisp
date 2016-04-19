@@ -27,6 +27,11 @@ Memory::Memory() {
 }
 
 Memory::~Memory() {
+  for (unsigned i = 0; i < size; i++) {
+    if (flags[i] == taken) {
+      delete &cell_vect[i];
+    }
+  }
   free(cell_vect);
   free(flags);
 }

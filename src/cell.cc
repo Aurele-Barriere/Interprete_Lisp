@@ -1,5 +1,6 @@
 #include "cell.hh"
 #include "memory.hh"
+#include <cstdlib>
 
 using namespace std;
 
@@ -73,6 +74,15 @@ void Cell::make_cell_symbol(string s) {
   sort = SYMBOL;
   char *p = strdup(s.c_str());	// Watch it! Allocated by malloc
   value.as_symbol = p;
+}
+
+Cell::~Cell() {
+  if (sort == STRING) {
+    free(value.as_string);
+  }
+  if (sort == SYMBOL) {
+    free(value.as_symbol);
+  }
 }
 
 void Cell::make_cell_pair(Object p, Object q) {
