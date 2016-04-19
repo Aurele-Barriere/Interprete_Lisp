@@ -17,6 +17,7 @@ void yyrestart(FILE *new_file);
 extern Object just_read;
 extern "C" int yyparse();
 extern Memory mem;
+bool end;
 
 void prompt() {
   cout << "Lisp? " << flush;
@@ -32,6 +33,9 @@ void toplevel_eval(Object l, Environment& env) {
   }
   else if (listp(l) && Object_to_string(car(l)) == "loadfile" && stringp(cadr(l))) {
     eval_file((Object_to_string(cadr(l)).c_str()), env);
+  }
+  else if (Object_to_string(car(l)) == "exit") {
+    end = true;
   }
   else {
     try {
@@ -68,14 +72,14 @@ void main_loop(Environment& env) {
     prompt();
   }
 
-  while (yyparse() == 0) {
+  while (!end && yyparse() == 0) {
     Object l = just_read;
     toplevel_eval(l, env);
     if (++i % 3 == 0) {
-      
+
       mem.garbage_collection(env);
     }
-    if (!using_file) {
+    if (!using_file && !end) {
       prompt();
     }
 
@@ -84,11 +88,12 @@ void main_loop(Environment& env) {
 }
 
 void toplevel() {
+  end = false;
   Environment env; //creating environment
 
   if (using_file) {
     eval_file(filename, env);
   }
-
+  end = false;
   main_loop(env);
 }
