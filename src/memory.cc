@@ -26,6 +26,11 @@ Memory::Memory() {
   cell_vect[0] = Cell();
 }
 
+Memory::~Memory() {
+  free(cell_vect);
+  free(flags);
+}
+
 Object Memory::allocate_cell() {
   unsigned i;
   for (i=0; i<size; i++) {
@@ -85,7 +90,7 @@ void Memory::garbage_collection(Environment env) {
   unsigned cnt = 0;
   // begins at 1 because we do not want to free the first cell (nil)
   for (unsigned i = 1; i < size; i++) {
-    if (!seen[i]) {
+    if (!seen[i] && flags[i] == taken) {
       cnt++;
       flags[i] = not_taken;
     }

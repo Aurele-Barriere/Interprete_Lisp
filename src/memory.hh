@@ -17,6 +17,7 @@ private:
 
 public:
   Memory();
+  ~Memory();
   Object allocate_cell();
   Cell* at(unsigned i);
   void garbage_collection(Environment env);
