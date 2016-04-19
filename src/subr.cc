@@ -1,11 +1,12 @@
 #include <string>
 #include <cassert>
 #include <stdexcept>
+#include <cstdio>
 #include "subr.hh"
 #include "exceptions.hh"
 #include "eval.hh"
 
-
+using namespace std;
 
 
 Object do_plus(Object lvals) {
@@ -64,4 +65,12 @@ Object do_equal(Object lvals) {
 
   throw Bad_Type_Exception(car(lvals), "Exception in =: not 2 numbers or 2 strings" );
 
+}
+
+Object do_read() {
+  int i;
+  cout << "Read : ";
+  cin >> i;
+  //cout << endl;
+  return number_to_Object(i);
 }

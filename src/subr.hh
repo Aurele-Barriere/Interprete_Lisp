@@ -14,3 +14,5 @@ Object do_minus(Object lvals);
 Object do_times(Object lvals);
 
 Object do_equal(Object lvals);
+
+Object do_read();

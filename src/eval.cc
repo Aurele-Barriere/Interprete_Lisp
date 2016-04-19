@@ -99,6 +99,7 @@ Object apply(Object f, Object lvals, Environment env) {
     if (Object_to_string(f) == "*") return do_times(lvals);
     if (Object_to_string(f) == "-") return do_minus(lvals);
     if (Object_to_string(f) == "=") return do_equal(lvals);
+    if (Object_to_string(f) == "read") return do_read();
     Object new_f = env.find_value(Object_to_string(f));
     return apply(new_f, lvals, env);
   }
