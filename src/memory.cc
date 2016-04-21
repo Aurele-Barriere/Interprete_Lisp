@@ -29,7 +29,7 @@ Memory::Memory() {
 Memory::~Memory() {
   for (unsigned i = 0; i < size; i++) {
     if (flags[i] == taken) {
-      delete &cell_vect[i];
+      cell_vect[i].free_string();
     }
   }
   free(cell_vect);
@@ -101,5 +101,6 @@ void Memory::garbage_collection(Environment env) {
     }
   }
   if (memory_verbose) cout << "freed " << cnt << " cells" << endl;
+  free(seen);
 
 }

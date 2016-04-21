@@ -24,17 +24,17 @@ void prompt() {
 }
 
 void toplevel_eval(Object l, Environment& env) {
-  if (listp(l) && Object_to_string(car(l)) == "setq") {
+  if (listp(l) && symbolp(car(l)) && Object_to_string(car(l)) == "setq") {
     env.add_new_binding(Object_to_string(cadr(l)), eval(caddr(l), env));
   }
-  else if (listp(l) && Object_to_string(car(l)) == "printenv") {
+  else if (listp(l) && symbolp(car(l)) && Object_to_string(car(l)) == "printenv") {
     env.print(cout);
     cout << endl;
   }
-  else if (listp(l) && Object_to_string(car(l)) == "loadfile" && stringp(cadr(l))) {
+  else if (listp(l) && symbolp(car(l)) && Object_to_string(car(l)) == "loadfile" && stringp(cadr(l))) {
     eval_file((Object_to_string(cadr(l)).c_str()), env);
   }
-  else if (Object_to_string(car(l)) == "exit") {
+  else if (listp(l) && symbolp(car(l)) && Object_to_string(car(l)) == "exit") {
     end = true;
   }
   else {

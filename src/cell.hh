@@ -34,8 +34,8 @@ private:
 
 public:
   Cell();
-  ~Cell();
 
+  void free_string();
   bool is_number() const;
   bool is_string() const;
   bool is_symbol() const;

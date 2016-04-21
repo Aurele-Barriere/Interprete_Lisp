@@ -59,6 +59,15 @@ Cell::Cell() {
   check();
 }
 
+void Cell::free_string() {
+  if (is_string()) {
+    free (value.as_string);
+  }
+  if (is_symbol()) {
+    free (value.as_symbol);
+  }
+}
+
 void Cell::make_cell_number(int a) {
   sort = NUMBER;
   value.as_number = a;
@@ -74,15 +83,6 @@ void Cell::make_cell_symbol(string s) {
   sort = SYMBOL;
   char *p = strdup(s.c_str());	// Watch it! Allocated by malloc
   value.as_symbol = p;
-}
-
-Cell::~Cell() {
-  if (sort == STRING) {
-    free(value.as_string);
-  }
-  if (sort == SYMBOL) {
-    free(value.as_symbol);
-  }
 }
 
 void Cell::make_cell_pair(Object p, Object q) {
