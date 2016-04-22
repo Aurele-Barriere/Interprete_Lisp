@@ -12,10 +12,16 @@
 
 \title{Interprète Lisp en C++}
 \author{Aurèle Barrière \& Jérémy Thibault}
+\date{24 avril 2016}
+
 
 \begin{document}
 \maketitle
 \tableofcontents
+
+\begin{abstract}
+  L'objectif de se projet est de créer un interpréteur dynamique Lisp en C++. Nous nous intéresserons à la gestion de la mémoire et au comportement défensif de notre programme.
+\end{abstract}
 \newpage
 
 \section{Partie obligatoire: interprète à liaison dynamique}
@@ -37,7 +43,7 @@ Nous avons ainsi créé un module \code{toplevel} contenant une fonction \code{t
 
 Nous avons également eu besoin de rajouter des subroutines: au moins $-$ et $=$ étaient nécessaires pour implémenter des fonctions récursives.
 
-Nous en avons profités pour séparer toutes les subroutines de l'évaluation dans un module distinct.
+Nous en avons profité pour séparer toutes les subroutines de l'évaluation dans un module distinct.
 
 Nous avons également rajouté une subroutine \code{read}. Lorsqu'elle est évaluée, elle demande à l'utilisateur un objet qui va la remplacer.
 
@@ -57,6 +63,8 @@ Nous avons également ajouté un mode verbeux pour la mémoire, qui indique à l
 
 Une commande est également disponible pour afficher l'environnement courant.
 
+Enfin, nous avons ajouté une commande \code{loadfile} pour lire un fichier Lips existant (notons qu'on peut également lancer l'interpréteur avec l'option -f <nomdufichier>).
+
 
 \section{Partie optionnelle: extensions}
 
@@ -70,7 +78,7 @@ Nous avons alors choisi de modifier le type \code{Object}: il ne s'agit plus d'u
 
 \subsection{Allocation de cellules}
 
-Pour chaque création d'objet, on veut entièrement se débarrasser des \code{new Cell}, puisqu'on voudrait l'ensemble des cellules dans notre vecteur.  On dispose  d'un vecteur en parallèle, le vecteur \code{flags} qui indique pour chaque cellule du tableau si elle est utilisée ou non.
+Pour chaque création d'objet, on veut entièrement se débarrasser des \code{new Cell()}, puisqu'on voudrait l'ensemble des cellules dans notre vecteur.  On dispose  d'un vecteur en parallèle, le vecteur \code{flags} qui indique pour chaque cellule du tableau si elle est utilisée ou non.
 
 Ainsi, on crée une méthode \code{allocate()}dans la classe \code{memory} qui regarde l'indice de la première cellule non occupée du vecteur et le renvoie (tout en modifiant l'autre vecteur pour préciser que cette cellule est désormais occupée).
 
@@ -91,7 +99,11 @@ Ainsi, quand on appellera de nouveau la méthode \code{allocate}, on pourra réu
 
 \subsection{Mise en oeuvre et tests}
 
-\section{organisation de l'interpréteur}
+\section{Approche défensive}
+%object
+%classes amies
+
+\section{Organisation de l'interpréteur}
 
 \subsection{Diagramme objet}
 
