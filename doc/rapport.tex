@@ -37,6 +37,8 @@ Nous avons également eu besoin de rajouter des subroutines : au moins $-$ et $=
 
 Nous en avons profités pour séparer toutes les subroutines de l'évaluation dans un module distinct.
 
+Nous avons également rajouté une subroutine \texttt{read}. Lorsqu'elle est évaluée, elle demande à l'utilisateur un objet qui va la remplacer.
+
 \subsection{La directive setq}
 
 Pour ajouter des liaisons dans l'environnement courant, nous avons du ajouter un cas particulier à l'évaluation : \texttt{setq}. 
@@ -49,6 +51,8 @@ Lorsque l'utilisateur utilise cette commande, on évalue le deuxième argument, 
 
 Nous avons également laissé à l'utilisateur la possibilité d'activer le mode verbeux (qui indique chaque appel d'évaluation ou d'application de fonction) avec un argument optionnel.
 
+Nous avons également ajouté un mode verbeux pour la mémoire, qui indique à l'utilisateur toute création de cellule et libération de mémoire (cf. partie Garbage Collector).
+
 Une commande est également disponible pour afficher l'environnement courant.
 
 
@@ -56,10 +60,38 @@ Une commande est également disponible pour afficher l'environnement courant.
 
 Nous avons choisi d'étudier la gestion mémoire de notre interpréteur.
 
+Ainsi, on ne se permet que d'utiliser une certaine mémoire : un vecteur de cellules.
+
+Nous avons donc créé un module \texttt{memory} contenant une classe du même nom. Cette classe comporte le vecteur de mémoire et les méthodes pour le manipuler.
+
+Nous avons alors choisi de modifier le type \texttt{Object} : il ne s'agit plus d'un pointeur vers une cellule (donc son addresse dans la mémoire qu'on ne contrôle pas), mais d'un entier (son indice dans le veteur représentant la mémoire qu'on contrôle).
+
 \subsection{Allocation de cellules}
+
+Pour chaque création d'objet, on veut entièrement se débarrasser des \texttt{new Cell}, puisqu'on voudrait l'ensemble des cellules dans notre vecteur.  On dispose  d'un vecteur en parallèle, le vecteur \texttt{flags} qui indique pour chaque cellule du tableau si elle est utilisée ou non.
+
+Ainsi, on crée une méthode \texttt{allocate()}dans la classe \texttt{memory} qui regarde l'indice de la première cellule non occupée du vecteur et le renvoie (tout en modifiant l'autre vecteur pour préciser que cette cellule est désormais occupée).
+
+Alors, chaque fois qu'on a besoin d'un nouvel objet, on utilise la méthode \texttt{allocate}.
+
+Lorsqu'on a atteint la taille maximale de notre vecteur et qu'on a appelé la méthode \texttt{allocate}, on augmente la taille du vecteur mémoire.
 
 \subsection{Garbage collector}
 
+Il est important de noter que la plupart des objets créés pendant une évaluation ne sont plus utilisables après. En effet, à chaque évaluation, pour chaque appel à \texttt{cons} ou chaque conversion d'objet, on demande une case de notre vecteur mémoire.
+
+Cependant, une fois l'évaluation terminée, très peu de ces cellules sont encore atteignables depuis le toplevel.
+
+Pour déterminer celles qui sont encore utiles, on parcourt l'environnement courant. Pour chacune des liaisons de cet environnement, on regarde récursivement les objets de cette liaison. Ces objets sont encore atteignables, et dans un vecteur on précise donc qu'ils le sont. Enfin, on supprime toutes les cellules qu'on n'a pas rencontré de la sorte. Supprimer une cellule consiste seulement à dire dans le vecteur annexe de la mémoire qu'elle n'est pas utilisée.
+
+Ainsi, quand on appellera de nouveau la méthode \texttt{allocate}, on pourra réutiliser ces cellules.
+
+
 \subsection{Mise en oeuvre et tests}
+
+\section{organisation de l'interpréteur}
+
+\subsection{Diagramme objet}
+
 
 \end{document}
