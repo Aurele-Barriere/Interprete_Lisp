@@ -6,7 +6,9 @@
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{listings}
 
+\def\code #1{\lstinline{#1}}
 
 \title{Interprète Lisp en C++}
 \author{Aurèle Barrière \& Jérémy Thibault}
@@ -16,36 +18,36 @@
 \tableofcontents
 \newpage
 
-\section{Partie obligatoire : interprète à liaison dynamique}
+\section{Partie obligatoire: interprète à liaison dynamique}
 
 \subsection{Exceptions}
-La première amélioration de notre toplevel fut de rattraper toutes les exceptions lancées par le programme. En effet, il ne fallait pas que l'interprète s'arrête si l'utilisateur fait une erreur : nous voulions qu'il lui indique le type d'erreur, l'objet concerné et qu'il continue à s'éxécuter.
+La première amélioration de notre toplevel fut de rattraper toutes les exceptions lancées par le programme. En effet, il ne fallait pas que l'interprète s'arrête si l'utilisateur fait une erreur: nous voulions qu'il lui indique le type d'erreur, l'objet concerné et qu'il continue à s'éxécuter.
 
-Ainsi, nous avons créé un module \texttt{exceptions} contenant tous les types d'exceptions (des classes différentes) : exceptions liées à l'absence d'arguments, à un problème de typage, à un manque de liaisons dans l'environnement etc...
+Ainsi, nous avons créé un module \code{exceptions} contenant tous les types d'exceptions (des classes différentes): exceptions liées à l'absence d'arguments, à un problème de typage, à un manque de liaisons dans l'environnement etc...
 
 Ensuite, dans l'exécution du toplevel, on rattrape ces exceptions et on affiche les messages d'erreurs correspondant.
 
 \subsection{Organisation du toplevel}
 
-Dans le code initial, le fichier \texttt{main} contenait le toplevel et l'appel au parseur mélangés. Nous avons séparés ça.
+Dans le code initial, le fichier \code{main} contenait le toplevel et l'appel au parseur mélangés. Nous avons séparés ça.
 
-Nous avons ainsi créé un module \texttt{toplevel} contenant une fonction \texttt{toplevel()} qui sera appelée dans le \texttt{main}. Ce module fait appel aux fonctions de bison pour parser un fichier donné.
+Nous avons ainsi créé un module \code{toplevel} contenant une fonction \code{toplevel()} qui sera appelée dans le \code{main}. Ce module fait appel aux fonctions de bison pour parser un fichier donné.
 
 \subsection{Subroutines}
 
-Nous avons également eu besoin de rajouter des subroutines : au moins $-$ et $=$ étaient nécessaires pour implémenter des fonctions récursives.
+Nous avons également eu besoin de rajouter des subroutines: au moins $-$ et $=$ étaient nécessaires pour implémenter des fonctions récursives.
 
 Nous en avons profités pour séparer toutes les subroutines de l'évaluation dans un module distinct.
 
-Nous avons également rajouté une subroutine \texttt{read}. Lorsqu'elle est évaluée, elle demande à l'utilisateur un objet qui va la remplacer.
+Nous avons également rajouté une subroutine \code{read}. Lorsqu'elle est évaluée, elle demande à l'utilisateur un objet qui va la remplacer.
 
 \subsection{La directive setq}
 
-Pour ajouter des liaisons dans l'environnement courant, nous avons du ajouter un cas particulier à l'évaluation : \texttt{setq}. 
+Pour ajouter des liaisons dans l'environnement courant, nous avons du ajouter un cas particulier à l'évaluation: \code{setq}. 
 
 Lorsque l'utilisateur utilise cette commande, on évalue le deuxième argument, et on crée la liaison entre le premier argument et l'objet évalué.
 
-%à rajouter : traitement du cas lambda a l'évaluation
+%à rajouter: traitement du cas lambda a l'évaluation
 
 \subsection{Mode verbeux et affichage d'environnement}
 
@@ -56,35 +58,35 @@ Nous avons également ajouté un mode verbeux pour la mémoire, qui indique à l
 Une commande est également disponible pour afficher l'environnement courant.
 
 
-\section{Partie optionnelle : extensions}
+\section{Partie optionnelle: extensions}
 
 Nous avons choisi d'étudier la gestion mémoire de notre interpréteur.
 
-Ainsi, on ne se permet que d'utiliser une certaine mémoire : un vecteur de cellules.
+Ainsi, on ne se permet que d'utiliser une certaine mémoire: un vecteur de cellules.
 
-Nous avons donc créé un module \texttt{memory} contenant une classe du même nom. Cette classe comporte le vecteur de mémoire et les méthodes pour le manipuler.
+Nous avons donc créé un module \code{memory} contenant une classe du même nom. Cette classe comporte le vecteur de mémoire et les méthodes pour le manipuler.
 
-Nous avons alors choisi de modifier le type \texttt{Object} : il ne s'agit plus d'un pointeur vers une cellule (donc son addresse dans la mémoire qu'on ne contrôle pas), mais d'un entier (son indice dans le veteur représentant la mémoire qu'on contrôle).
+Nous avons alors choisi de modifier le type \code{Object}: il ne s'agit plus d'un pointeur vers une cellule (donc son addresse dans la mémoire qu'on ne contrôle pas), mais d'un entier (son indice dans le veteur représentant la mémoire qu'on contrôle).
 
 \subsection{Allocation de cellules}
 
-Pour chaque création d'objet, on veut entièrement se débarrasser des \texttt{new Cell}, puisqu'on voudrait l'ensemble des cellules dans notre vecteur.  On dispose  d'un vecteur en parallèle, le vecteur \texttt{flags} qui indique pour chaque cellule du tableau si elle est utilisée ou non.
+Pour chaque création d'objet, on veut entièrement se débarrasser des \code{new Cell}, puisqu'on voudrait l'ensemble des cellules dans notre vecteur.  On dispose  d'un vecteur en parallèle, le vecteur \code{flags} qui indique pour chaque cellule du tableau si elle est utilisée ou non.
 
-Ainsi, on crée une méthode \texttt{allocate()}dans la classe \texttt{memory} qui regarde l'indice de la première cellule non occupée du vecteur et le renvoie (tout en modifiant l'autre vecteur pour préciser que cette cellule est désormais occupée).
+Ainsi, on crée une méthode \code{allocate()}dans la classe \code{memory} qui regarde l'indice de la première cellule non occupée du vecteur et le renvoie (tout en modifiant l'autre vecteur pour préciser que cette cellule est désormais occupée).
 
-Alors, chaque fois qu'on a besoin d'un nouvel objet, on utilise la méthode \texttt{allocate}.
+Alors, chaque fois qu'on a besoin d'un nouvel objet, on utilise la méthode \code{allocate}.
 
-Lorsqu'on a atteint la taille maximale de notre vecteur et qu'on a appelé la méthode \texttt{allocate}, on augmente la taille du vecteur mémoire.
+Lorsqu'on a atteint la taille maximale de notre vecteur et qu'on a appelé la méthode \code{allocate}, on augmente la taille du vecteur mémoire.
 
 \subsection{Garbage collector}
 
-Il est important de noter que la plupart des objets créés pendant une évaluation ne sont plus utilisables après. En effet, à chaque évaluation, pour chaque appel à \texttt{cons} ou chaque conversion d'objet, on demande une case de notre vecteur mémoire.
+Il est important de noter que la plupart des objets créés pendant une évaluation ne sont plus utilisables après. En effet, à chaque évaluation, pour chaque appel à \code{cons} ou chaque conversion d'objet, on demande une case de notre vecteur mémoire.
 
 Cependant, une fois l'évaluation terminée, très peu de ces cellules sont encore atteignables depuis le toplevel.
 
 Pour déterminer celles qui sont encore utiles, on parcourt l'environnement courant. Pour chacune des liaisons de cet environnement, on regarde récursivement les objets de cette liaison. Ces objets sont encore atteignables, et dans un vecteur on précise donc qu'ils le sont. Enfin, on supprime toutes les cellules qu'on n'a pas rencontré de la sorte. Supprimer une cellule consiste seulement à dire dans le vecteur annexe de la mémoire qu'elle n'est pas utilisée.
 
-Ainsi, quand on appellera de nouveau la méthode \texttt{allocate}, on pourra réutiliser ces cellules.
+Ainsi, quand on appellera de nouveau la méthode \code{allocate}, on pourra réutiliser ces cellules.
 
 
 \subsection{Mise en oeuvre et tests}
