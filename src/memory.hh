@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "cell.hh"
 #include "env.hh"
 
@@ -10,8 +11,8 @@ enum flag { not_taken , taken };
 
 class Memory {
 private:
-  Cell* cell_vect;
-  flag* flags;
+  std::vector<Cell> cell_vect;
+  std::vector<flag> flags;
   unsigned size;
   void garbage_collection_aux(bool* seen, Object p);
 

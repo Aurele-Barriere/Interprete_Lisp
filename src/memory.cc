@@ -6,24 +6,13 @@ using namespace std;
 
 int memory_verbose = 0;
 
-Memory::Memory() {
+Memory::Memory() : cell_vect(BASE_MEMORY_SIZE), flags(BASE_MEMORY_SIZE, not_taken) {
   size = BASE_MEMORY_SIZE;
   cout << "Creating Memory" << endl;
   cout << "Mem size : " << size << endl;
 
-  cell_vect = (Cell*) malloc(size * sizeof(Cell));
-  flags = (flag*) malloc(size * sizeof(flag));
-
-  if (!cell_vect || !flags) {
-    throw Memory_Exception();
-  }
-
-  for (unsigned i = 0; i< size; i++) {
-    flags[i] = not_taken;
-  }
 
   flags[0] = taken; // Empty cell
-  cell_vect[0] = Cell();
 }
 
 Memory::~Memory() {
@@ -32,8 +21,6 @@ Memory::~Memory() {
       cell_vect[i].free_string();
     }
   }
-  free(cell_vect);
-  free(flags);
 }
 
 Object Memory::allocate_cell() {
@@ -47,19 +34,8 @@ Object Memory::allocate_cell() {
   }
 
   if (memory_verbose) cout << "increasing memory size" << endl;
-  Cell* cell_vect_temp = (Cell*) realloc(cell_vect, (size+BASE_MEMORY_SIZE) * sizeof(Cell));
-  flag* flags_temp = (flag*) realloc(flags, (size+BASE_MEMORY_SIZE) * sizeof(flag));
-
-  if (!cell_vect_temp || !flags) {
-    throw Memory_Exception();
-  } else {
-    cell_vect = cell_vect_temp;
-    flags = flags_temp;
-  }
-
-  for (unsigned j = i; j< size+BASE_MEMORY_SIZE; j++) {
-    flags[j] = not_taken;
-  }
+  cell_vect.resize(size + BASE_MEMORY_SIZE);
+  flags.resize(size + BASE_MEMORY_SIZE, not_taken);
 
   if (memory_verbose) cout << "allocated cell number " << i << endl;
   flags[i] = taken;
