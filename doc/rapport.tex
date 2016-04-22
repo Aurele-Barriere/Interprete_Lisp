@@ -10,6 +10,8 @@
 
 \def\code #1{\lstinline{#1}}
 
+\lstset{language=C++,basicstyle=\ttfamily,breaklines=true}
+
 \title{Interprète Lisp en C++}
 \author{Aurèle Barrière \& Jérémy Thibault}
 \date{24 avril 2016}
@@ -20,7 +22,7 @@
 \tableofcontents
 
 \begin{abstract}
-  L'objectif de se projet est de créer un interpréteur dynamique Lisp en C++. Nous nous intéresserons à la gestion de la mémoire et au comportement défensif de notre programme. Nous commençons par améliorer le code à notre disposition pour inclure de nouvelles fonctionnalités. Enfin, nous changeons la gestion de la mémoire pour n'utiliser qu'un vecteur totalement contrôlé, avec implémentation de \code{Garbage Collector}. Ensuite, nous considérons une approche plus défensive pour notre programme.
+  L'objectif de se projet est de créer un interpréteur dynamique Lisp en C++. Nous nous intéresserons à la gestion de la mémoire et au comportement défensif de notre programme. Nous commençons par améliorer le code à notre disposition pour inclure de nouvelles fonctionnalités. Ensuite, nous changeons la gestion de la mémoire pour n'utiliser qu'un vecteur totalement contrôlé, avec implémentation de \code{Garbage Collector}. Enfin, nous considérons une approche plus défensive pour notre programme.
 \end{abstract}
 \newpage
 
