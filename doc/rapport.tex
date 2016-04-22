@@ -20,7 +20,7 @@
 \tableofcontents
 
 \begin{abstract}
-  L'objectif de se projet est de créer un interpréteur dynamique Lisp en C++. Nous nous intéresserons à la gestion de la mémoire et au comportement défensif de notre programme.
+  L'objectif de se projet est de créer un interpréteur dynamique Lisp en C++. Nous nous intéresserons à la gestion de la mémoire et au comportement défensif de notre programme. Nous commençons par améliorer le code à notre disposition pour inclure de nouvelles fonctionnalités. Enfin, nous changeons la gestion de la mémoire pour n'utiliser qu'un vecteur totalement contrôlé, avec implémentation de \code{Garbage Collector}. Ensuite, nous considérons une approche plus défensive pour notre programme.
 \end{abstract}
 \newpage
 
@@ -61,9 +61,11 @@ Nous avons également laissé à l'utilisateur la possibilité d'activer le mode
 
 Nous avons également ajouté un mode verbeux pour la mémoire, qui indique à l'utilisateur toute création de cellule et libération de mémoire (cf. partie Garbage Collector).
 
+Ces deux modes s'activent avec les options \code{-v} ou \code{-m}.
+
 Une commande est également disponible pour afficher l'environnement courant.
 
-Enfin, nous avons ajouté une commande \code{loadfile} pour lire un fichier Lips existant (notons qu'on peut également lancer l'interpréteur avec l'option -f <nomdufichier>).
+Enfin, nous avons ajouté une commande \code{loadfile} pour lire un fichier Lips existant (notons qu'on peut également lancer l'interpréteur avec l'option \code{-f <nomdufichier>}).
 
 
 \section{Partie optionnelle: extensions}
@@ -100,8 +102,16 @@ Ainsi, quand on appellera de nouveau la méthode \code{allocate}, on pourra réu
 \subsection{Mise en oeuvre et tests}
 
 \section{Approche défensive}
+
+Nous avons ensuite choisi d'organiser la gestion de la mémoire de manière plus défensive. Il était important que les méthodes de traitement de la mémoire ne soient pas accessibles partout.
+
+Ainsi, toutes les méthodes de la classe \code{memory} ont été mises en \code{private}. Ensuite, nous avons déclarées toutes les méthodes ou classes qui étaient autorisées à les appeler comme des classes ou fonctions \emph{amies}.
+
+Cela consistait à lister leur prototypes avec le mot-clé \code{friend} devant dans la classe.
+
+Ainsi, on se garantit que l'accés à la mémoire ne peut se faire qu'en des endroits contrôlés.
+
 %object
-%classes amies
 
 \section{Organisation de l'interpréteur}
 
