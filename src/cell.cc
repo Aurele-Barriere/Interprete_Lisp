@@ -95,9 +95,9 @@ void Cell::make_cell_pair(Object p, Object q) {
 
 Cell Cell::cell_nil = Cell();
 
-static ostream& print_cell_pointer(ostream& s, const Cell *p);
+/*static*/ ostream& print_cell_pointer(ostream& s, const Cell *p);
 
-static ostream& print_cell_pointer_aux(ostream& s, const Cell *p) {
+/*static*/ ostream& print_cell_pointer_aux(ostream& s, const Cell *p) {
   assert(p -> is_pair());
   for (const Cell *pp = p;; pp = mem.at(pp -> to_pair_next())) {
     if (pp == mem.at(0)) break;
@@ -108,7 +108,7 @@ static ostream& print_cell_pointer_aux(ostream& s, const Cell *p) {
   return s;
 }
 
-static ostream& print_cell_pointer(ostream& s, const Cell *p) {
+/*static*/ ostream& print_cell_pointer(ostream& s, const Cell *p) {
   if (p == mem.at(0)) return s << "nil" << flush;
   if (p -> is_number()) return s << p -> to_number() << flush;
   if (p -> is_string()) return s << p -> to_string() << flush;
