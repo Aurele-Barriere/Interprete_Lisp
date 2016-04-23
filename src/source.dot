@@ -1,0 +1,26 @@
+digraph "source tree" {
+    overlap=scale;
+    size="8,10";
+    ratio="fill";
+    fontsize="16";
+    fontname="Helvetica";
+	clusterrank="local";
+	"main" -> "toplevel"
+	"lisp_lex" -> "lisp_yacc"
+	"eval" -> "exceptions"
+	"subr" -> "exceptions"
+	"lisp_yacc" -> "object"
+	"memory" -> "exceptions"
+	"env" -> "exceptions"
+	"lisp_lex" -> "object"
+	"main" -> "memory"
+	"eval" -> "memory"
+	"cell" -> "memory"
+	"toplevel" -> "eval"
+	"eval" -> "subr"
+	"toplevel" -> "exceptions"
+	"object" -> "memory"
+	"toplevel" -> "memory"
+	"subr" -> "eval"
+	"env" -> "memory"
+}
