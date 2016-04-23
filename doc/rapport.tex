@@ -119,5 +119,22 @@ Ainsi, on se garantit que l'accés à la mémoire ne peut se faire qu'en des end
 
 \subsection{Diagramme objet}
 
+\section{Conclusion}
+
+Ce projet fut pour nous l'occasion de rassembler tout ce que nous avions appris sur le C++, le Lisp et les interpréteurs.
+
+Pour la première fois, nous avons pu nous intéresser de près à la gestion de la mémoire grâce à l'extension Garbage Collctor.
+
+
+Cependant, notre projet aurait pu être amélioré :
+
+Dans un premier temps, nous aurions pu créer la classe \code{Object}.
+En effet, dans notre implémentation, un objet est un entier, et il existe donc des opérations qui peuvent le modifier. On aurait pu remplacer ce type par une classe contenant un seul champ : l'entier (l'indice dans le vecteur de la mémoire), un constructeur et une méthode pour accéder à l'indice. Toutes les méthodes seraient privées, et on listeraient quelques fonctions et classes amies qui pourraient s'en servir. Ainsi, notre approche aurait été encore plus sécurisée.
+
+Ensuite, il aurait été possible de factoriser certaines fonctions (notamment celles qui interagissent avec les objets), pour une meilleure organisation et pour simplifier la déclaration des amis de la classe \code{memory}.
+
+Enfin, notre Garbage Collector aurait pu bénéficier d'un compactage. En effet, après son éxécution, les objets restant sont éparpillés dans la mémoire. À cause du principe de localité et pour pouvoir réduire la taille de la mémoire occupé (dans le cas, par exemple, d'un programme ayant besoin de beaucoup de mémoire à l'initialisation, puis très peu ensuite), il aurait été utile de les regrouper au début du vecteur. Cependant, il aurait aussi fallu modifier les objets déplacés, puisque de nombreux objets pointent vers d'autres (dans le cas des listes par exemple).
+
+Malgré les possibles améliorations, notre interpréteur est déjà beaucoup plus complet que la version qui nous était fournie. L'interaction avec l'utilisateur est mieux gérée (on ne considère pas qu'il ne se trompe jamais, mais on rattrape les exceptions liées à ses erreurs), et la mémoire est totalement contrôlée. Le code lui-même a égalment été redécouper par endroits pour mieux l'organiser.
 
 \end{document}
