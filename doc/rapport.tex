@@ -142,6 +142,44 @@ De même, de nombreux modules sont susceptibles de lancer des exceptions.
 
 \section{Mise en oeuvre et tests}
 
+Pour vérifier le fonctionnement de la gestion mémoire, on rajoute une option (\code{-p}) qui affiche le statut du vecteur mémoire.
+
+On parcourt le vecteur, et on affiche O si la case est occupée, et \_ sinon.
+
+On peut ainsi facilement vérifier le fonctionnement du Garbage Collector.
+
+Voici donc un exemple d'éxécution, avec une taille de mémoire initiale de 15, et un appel de Garbage Collector toutes les 30 allocations.
+
+\lstset{language=C++,basicstyle=\ttfamily,breaklines=true, frame=single}
+\begin{lstlisting}
+  $ ./lisp -p
+Creating Memory
+Mem size : 15
+Lisp Interpreter
+Aurele Barriere & Jeremy Thibault
+Printing memory vector
+Lisp? (setq a 1)
+OOOOOOOOO_____
+Lisp? (- 6 5)
+1
+OOOOOOOOOOOOOOOOOOOOO________
+Lisp? (setq f (lambda (n) (+ n 1)))
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO___________
+collecting garbage
+____O____________________O_O_O_O_O_O_OOO_OOO_______________
+Lisp? (+ 1 2)
+3
+OOOOOOOOOOOOO____________O_O_O_O_O_O_OOO_OOO_______________
+Lisp? (exit)
+\end{lstlisting}
+\lstset{language=C++,basicstyle=\ttfamily,breaklines=true}
+
+On observe donc le fonctionnement de la mémoire. Quand on appelle trop de fois la méthode \code{allocate()}, le veteur mémoire s'aggrandit.
+
+Et après le passage du Garbage collector, il ne reste plus qu'un objet des 2 premières commandes (a), et quelques objets pour la fonction f.
+
+Ensuite, les prochains objets sont assignés au début du vecteur.
+
 \section{Conclusion}
 
 Ce projet fut pour nous l'occasion de rassembler tout ce que nous avions appris sur le C++, le Lisp et les interpréteurs.

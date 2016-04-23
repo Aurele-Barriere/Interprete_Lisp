@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define BEFORE_GC 50 //number of cells to allocate before launching the garbage collector
+#define BEFORE_GC 30 //number of cells to allocate before launching the garbage collector
 
 int using_file;
 char filename[255];

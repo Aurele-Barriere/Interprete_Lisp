@@ -4,7 +4,7 @@
 #include "env.hh"
 #include "object.hh"
 
-#define BASE_MEMORY_SIZE 30
+#define BASE_MEMORY_SIZE 15
 
 enum flag { not_taken , taken };
 

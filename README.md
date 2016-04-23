@@ -21,7 +21,8 @@ Arguments:
 
 
 
-The source code ca be found in the src/ directory.
+
+The source code can be found in the src/ directory.
 
 The report can be found in the doc/ directory.
 
