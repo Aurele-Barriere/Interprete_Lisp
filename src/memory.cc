@@ -5,6 +5,21 @@
 using namespace std;
 
 int memory_verbose = 0;
+int print_memory = 0;
+
+void Memory::print_vect() {
+  if (print_memory) {
+    for (unsigned i = 1; i<size; i++) {
+      if (flags[i] == not_taken) {
+	cout << "_";
+      }
+      else {
+	cout << "O";
+      }
+    }
+    cout << endl;
+  }
+}
 
 Memory::Memory() {
   size = BASE_MEMORY_SIZE;

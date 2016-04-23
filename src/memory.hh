@@ -56,4 +56,5 @@ private:
 public:
   Memory();
   ~Memory();
+  void print_vect();
 };

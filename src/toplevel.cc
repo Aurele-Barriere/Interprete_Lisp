@@ -75,6 +75,7 @@ void main_loop(Environment& env) {
   while (!end && yyparse() == 0) {
     Object l = just_read;
     toplevel_eval(l, env);
+    mem.print_vect();
     if (++i % 3 == 0) {
 
       mem.garbage_collection(env);

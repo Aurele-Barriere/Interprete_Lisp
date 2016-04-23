@@ -70,7 +70,7 @@ Une commande est également disponible pour afficher l'environnement courant.
 Enfin, nous avons ajouté une commande \code{loadfile} pour lire un fichier Lips existant (notons qu'on peut également lancer l'interpréteur avec l'option \code{-f <nomdufichier>}).
 
 
-\section{Partie optionnelle: extensions}
+\section{Partie optionnelle: gestion de la mémoire}
 
 Nous avons choisi d'étudier la gestion mémoire de notre interpréteur.
 
@@ -101,8 +101,6 @@ Pour déterminer celles qui sont encore utiles, on parcourt l'environnement cour
 Ainsi, quand on appellera de nouveau la méthode \code{allocate}, on pourra réutiliser ces cellules.
 
 
-\subsection{Mise en oeuvre et tests}
-
 \section{Approche défensive}
 
 Nous avons ensuite choisi d'organiser la gestion de la mémoire de manière plus défensive. Il était important que les méthodes de traitement de la mémoire ne soient pas accessibles partout.
@@ -115,9 +113,8 @@ Ainsi, on se garantit que l'accés à la mémoire ne peut se faire qu'en des end
 
 %object
 
-\section{Organisation de l'interpréteur}
 
-\subsection{Graphe de dépendances}
+\section{Graphe de dépendances}
 
 \begin{figure}
   \begin{center}
@@ -133,6 +130,8 @@ On peut voir \textsc{Figure} \ref{fig:dep} le graphe de dépendances de notre in
 On constate que beaucoup de modules utilisent le module mémoire : que ce soit pour créer une mémoire dans \code{main}, le \code{toplevel} qui peut lancer le Garbage collector, ou les autres modules qui la manipulent.
 
 De même, de nombreux modules sont susceptibles de lancer des exceptions.
+
+\section{Mise en oeuvre et tests}
 
 \section{Conclusion}
 
