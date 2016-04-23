@@ -55,8 +55,7 @@ Object Cell::to_pair_next() const {
 // }
 
 Cell::Cell() {
-  make_cell_string(""); // Avoids a lot of problem: no 42 appearing everywhere
-  check();
+  make_cell_number(0);
 }
 
 void Cell::free_string() {
