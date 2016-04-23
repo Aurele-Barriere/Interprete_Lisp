@@ -117,7 +117,22 @@ Ainsi, on se garantit que l'accés à la mémoire ne peut se faire qu'en des end
 
 \section{Organisation de l'interpréteur}
 
-\subsection{Diagramme objet}
+\subsection{Graphe de dépendances}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.4]{graph.png}
+    \label{fig:dep}
+    \caption{Le graphe de dépendances de notre interpréteur}
+  \end{center}
+\end{figure}
+
+
+On peut voir \textsc{Figure} \ref{fig:dep} le graphe de dépendances de notre interpréteur.
+
+On constate que beaucoup de modules utilisent le module mémoire : que ce soit pour créer une mémoire dans \code{main}, le \code{toplevel} qui peut lancer le Garbage collector, ou les autres modules qui la manipulent.
+
+De même, de nombreux modules sont susceptibles de lancer des exceptions.
 
 \section{Conclusion}
 
