@@ -59,6 +59,9 @@ int main(int argc, char * argv[]) {
     if (memory_verbose) {
       cout << "Memory verbose mode" << endl;
     }
+    if (print_memory) {
+      cout << "Printing memory vector" << endl;
+    }
     toplevel();
   }
   return 0;
