@@ -6,10 +6,11 @@
 
 using namespace std;
 
+class Object;
 class Binding {
 private:
   string name;
-  Object value;
+  Object* value;
 public:
   Binding(string _name, Object _value);
   string get_name() const;

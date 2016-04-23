@@ -12,19 +12,19 @@ int verbose = 0;
 extern Memory mem;
 
 bool numberp(Object l) {
-  return mem.at(l)->is_number();
+  return mem.at(l.getID())->is_number();
 }
 
 bool stringp(Object l) {
-  return mem.at(l)->is_string();
+  return mem.at(l.getID())->is_string();
 }
 
 bool symbolp(Object l) {
-  return mem.at(l)->is_symbol();
+  return mem.at(l.getID())->is_symbol();
 }
 
 bool listp(Object l) {
-  return mem.at(l)->is_pair();
+  return mem.at(l.getID())->is_pair();
 }
 
 Object cadr(Object l) {
@@ -54,7 +54,7 @@ Object apply(Object f, Object lvals, Environment env);
 Object eval_list(Object largs, Environment env);
 
 Object eval(Object l, Environment env) {
-  if (verbose) clog << "\teval: " << l << env << endl;
+  if (verbose) clog << "\teval: " << l.getID() << env << endl;
 
   if (null(l)) return l;
   if (numberp(l)) return l;
@@ -88,7 +88,7 @@ Object eval_list(Object largs, Environment env) {
 }
 
 Object apply(Object f, Object lvals, Environment env) {
-  if (verbose) clog << "\tapply: " << f << " " << lvals << env << endl;
+  if (verbose) clog << "\tapply: " << f.getID() << " " << lvals.getID() << env << endl;
 
   if (null(f)) throw Evaluation_Exception(f, env, "Cannot apply nil");
   if (numberp(f)) throw Evaluation_Exception(f, env, "Cannot apply a number");

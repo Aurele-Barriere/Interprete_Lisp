@@ -6,12 +6,12 @@ using namespace std;
 extern Memory mem;
 
 Binding::Binding(string _name, Object _value):
-  name(_name), value(_value) {}
+  name(_name), value(&_value) {}
 string  Binding::get_name() const {
   return name;
 }
 Object  Binding::get_value() const {
-  return value;
+  return *value;
 }
 
 
@@ -40,7 +40,7 @@ Object Environment::find_value(string name) {
 void Environment::print(ostream& s) {
   s << "\t| ";
   for (int i = contents.size() - 1; i >= 0; i--) {
-    s << contents.at(i).get_name() << ": " << mem.at(contents.at(i).get_value()) << "; " << endl << "\t  ";
+    s << contents.at(i).get_name() << ": " << mem.at(contents.at(i).get_value().getID()) << "; " << endl << "\t  ";
   }
 }
 

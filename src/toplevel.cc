@@ -39,7 +39,7 @@ void toplevel_eval(Object l, Environment& env) {
   }
   else {
     try {
-      cout << mem.at(eval(l, env)) << endl;
+      cout << mem.at(eval(l, env).getID()) << endl;
     } catch (const Evaluation_Exception except) {
       cout << except.what() << endl;
     } catch (const No_Binding_Exception except) {

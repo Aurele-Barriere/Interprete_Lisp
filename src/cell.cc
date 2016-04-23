@@ -42,12 +42,12 @@ string Cell::to_symbol() const {
 
 Object Cell::to_pair_item() const {
   assert(is_pair());
-  return value.as_pair.item;
+  return *value.as_pair.item;
 }
 
 Object Cell::to_pair_next() const {
   assert(is_pair());
-  return value.as_pair.next;
+  return *value.as_pair.next;
 }
 
 // Cell *Cell::nil() {
@@ -87,8 +87,8 @@ void Cell::make_cell_symbol(string s) {
 void Cell::make_cell_pair(Object p, Object q) {
   sort = PAIR;
   cell_pair c;
-  c.item = p;
-  c.next = q;
+  c.item = &p;
+  c.next = &q;
   value.as_pair = c;
 }
 
@@ -98,10 +98,10 @@ Cell Cell::cell_nil = Cell();
 
 /*static*/ ostream& print_cell_pointer_aux(ostream& s, const Cell *p) {
   assert(p -> is_pair());
-  for (const Cell *pp = p;; pp = mem.at(pp -> to_pair_next())) {
+  for (const Cell *pp = p;; pp = mem.at(pp->to_pair_next().getID())) {
     if (pp == mem.at(0)) break;
-    print_cell_pointer(s, mem.at(pp -> to_pair_item()));
-    if (mem.at(pp -> to_pair_next()) == mem.at(0)) break;
+    print_cell_pointer(s, mem.at(pp->to_pair_item().getID()));
+    if (mem.at(pp->to_pair_next().getID()) == mem.at(0)) break;
     s << " " << flush;
   }
   return s;

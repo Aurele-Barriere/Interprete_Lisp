@@ -45,7 +45,7 @@ $(O_FILES): %.o: %.cc %.hh Makefile
 	g++ -Wall $< -c
 
 lisp: $(O_FILES) $(O_SYNTAX_FILES) Makefile
-	g++ -Wall $(O_FILES) $(O_SYNTAX_FILES) -o $@ 
+	g++ -Wall $(O_FILES) $(O_SYNTAX_FILES) -o $@
 
 ASTYLE_OPTIONS =        --style=attach --indent=spaces=2
 

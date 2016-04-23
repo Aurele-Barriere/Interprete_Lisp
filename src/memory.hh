@@ -1,15 +1,15 @@
 #pragma once
 
 #include <vector>
-#include "cell.hh"
 #include "env.hh"
+#include "cell.hh"
 #include "object.hh"
 
 #define BASE_MEMORY_SIZE 30
 
 enum flag { not_taken , taken };
 
-
+class Environment;
 class Memory {
   /*
     All friends that are allowed to access the memory
@@ -50,7 +50,7 @@ private:
   std::vector<flag> flags;
   unsigned size;
   void garbage_collection_aux(bool* seen, Object p);
-  Object allocate_cell();
+  unsigned allocate_cell();
   void garbage_collection(Environment env);
   Cell* at(unsigned i);
 

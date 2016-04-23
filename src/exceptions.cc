@@ -7,7 +7,7 @@ No_Binding_Exception::No_Binding_Exception(string _name): runtime_error("No bind
 Zipping_Exception::Zipping_Exception(Object _lobjs, string _message): runtime_error("Zipping exception: " + _message) {
   message = _message;
   lobjs = _lobjs;
-  clog << message << ": " << lobjs << endl;
+  clog << message << ": " << lobjs.getID() << endl;
 }
 
 Evaluation_Exception::Evaluation_Exception(Object _obj, Environment _env, string _message):

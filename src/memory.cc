@@ -23,7 +23,7 @@ Memory::~Memory() {
   }
 }
 
-Object Memory::allocate_cell() {
+unsigned Memory::allocate_cell() {
   unsigned i;
   for (i=0; i<size; i++) {
     if (flags[i] == not_taken) {
@@ -44,15 +44,16 @@ Object Memory::allocate_cell() {
 }
 
 Cell* Memory::at(unsigned i) {
+  cout << i << endl;
   assert(i < size);
   return &(cell_vect[i]);
 }
 
 void Memory::garbage_collection_aux(bool* seen, Object p) {
-  seen[p] = true;
-  if (cell_vect[p].is_pair()) {
-    garbage_collection_aux(seen, cell_vect[p].to_pair_item());
-    garbage_collection_aux(seen, cell_vect[p].to_pair_next());
+  seen[p.getID()] = true;
+  if (cell_vect[p.getID()].is_pair()) {
+    garbage_collection_aux(seen, cell_vect[p.getID()].to_pair_item());
+    garbage_collection_aux(seen, cell_vect[p.getID()].to_pair_next());
   }
 }
 

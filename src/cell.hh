@@ -7,16 +7,15 @@
 
 using namespace std;
 
-typedef unsigned Object;
-
+class Object;
 class Cell {
 private:
   enum cell_sort {NUMBER, STRING, SYMBOL, PAIR};
   cell_sort sort;
 
   struct cell_pair {
-    Object item;
-    Object next;
+    Object* item;
+    Object* next;
   };
 
   union cell_value {

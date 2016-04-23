@@ -65,7 +65,7 @@ http://tldp.org/HOWTO/Lex-YACC-HOWTO-6.html
 */
 
 main:
-list_rpar expr          {$$ = $2; if (verbose) clog << "Read: " << $2 << endl; just_read = $$; YYACCEPT;}
+list_rpar expr          {$$ = $2; if (verbose) clog << "Read: " << $2.getID() << endl; just_read = $$; YYACCEPT;}
 | END { YYABORT;}
 ;
 
