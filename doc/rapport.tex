@@ -101,6 +101,15 @@ Pour déterminer celles qui sont encore utiles, on parcourt l'environnement cour
 Ainsi, quand on appellera de nouveau la méthode \code{allocate}, on pourra réutiliser ces cellules.
 
 
+\subsection{Lancer le Garbage Collector}
+Une fois le Garbage Collector implémenté, il faut savoir quand l'éxécuter. En effet, son éxécution est coûteuse en temps de calcul. Nous allons donc éviter de l'appeler à chaque fin de calcul.
+
+Dans un premier temps, le Garbage Collector ne sera lancé qu'en dehors des calculs (sinon, on pourrait perturber les mesures de temps d'exécution d'un calcul).
+
+Au début, nous l'appelions tous les 3 calculs. Cependant, on peut avoir une meilleure estimation du l'utilité du Garbage Collector en calculant le nombre d'allocations. Plus il y a d'allocations, plus il y a d'objets susceptibles d'être inutilisables par la suite.
+
+On se fixe donc une borne (une constante). Lorsqu'on dépasse ce nombre d'alloations, on éxécute le Garbage Collector.
+
 \section{Approche défensive}
 
 Nous avons ensuite choisi d'organiser la gestion de la mémoire de manière plus défensive. Il était important que les méthodes de traitement de la mémoire ne soient pas accessibles partout.
