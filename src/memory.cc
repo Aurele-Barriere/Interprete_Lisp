@@ -6,6 +6,8 @@ using namespace std;
 
 int memory_verbose = 0;
 int print_memory = 0;
+int nb_allocate = 0;
+
 
 void Memory::print_vect() {
   if (print_memory) {
@@ -52,6 +54,7 @@ Memory::~Memory() {
 }
 
 Object Memory::allocate_cell() {
+  nb_allocate += 1;
   unsigned i;
   for (i=0; i<size; i++) {
     if (flags[i] == not_taken) {
