@@ -51,7 +51,7 @@ Nous avons également rajouté une subroutine \code{read}. Lorsqu'elle est éval
 
 \subsection{La directive setq}
 
-Pour ajouter des liaisons dans l'environnement courant, nous avons du ajouter un cas particulier à l'évaluation: \code{setq}. 
+Pour ajouter des liaisons dans l'environnement courant, nous avons du ajouter un cas particulier à l'évaluation: \code{setq}.
 
 Lorsque l'utilisateur utilise cette commande, on évalue le deuxième argument, et on crée la liaison entre le premier argument et l'objet évalué.
 
@@ -191,6 +191,7 @@ Cependant, notre projet aurait pu être amélioré :
 
 Dans un premier temps, nous aurions pu créer la classe \code{Object}.
 En effet, dans notre implémentation, un objet est un entier, et il existe donc des opérations qui peuvent le modifier. On aurait pu remplacer ce type par une classe contenant un seul champ : l'entier (l'indice dans le vecteur de la mémoire), un constructeur et une méthode pour accéder à l'indice. Toutes les méthodes seraient privées, et on listeraient quelques fonctions et classes amies qui pourraient s'en servir. Ainsi, notre approche aurait été encore plus sécurisée.
+Nous avons fait le choix de ne pas le faire. En effet, nous avons considéré que la sécurité rajoutée n'était pas suffisante pour accepter l'augmentation de la complexité: nous aurions eu trois classes qui se réfèrent mutuellement, et nous aurions du transformer la plupart de nos objets en pointeurs vers des objets.
 
 Ensuite, il aurait été possible de factoriser certaines fonctions (notamment celles qui interagissent avec les objets), pour une meilleure organisation et pour simplifier la déclaration des amis de la classe \code{memory}.
 
