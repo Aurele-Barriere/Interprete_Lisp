@@ -70,7 +70,7 @@ Une commande est également disponible pour afficher l'environnement courant.
 Enfin, nous avons ajouté une commande \code{loadfile} pour lire un fichier Lips existant (notons qu'on peut également lancer l'interpréteur avec l'option \code{-f <nomdufichier>}).
 
 
-\section{Partie optionnelle: extensions}
+\section{Partie optionnelle: gestion de la mémoire}
 
 Nous avons choisi d'étudier la gestion mémoire de notre interpréteur.
 
@@ -101,7 +101,14 @@ Pour déterminer celles qui sont encore utiles, on parcourt l'environnement cour
 Ainsi, quand on appellera de nouveau la méthode \code{allocate}, on pourra réutiliser ces cellules.
 
 
-\subsection{Mise en oeuvre et tests}
+\subsection{Lancer le Garbage Collector}
+Une fois le Garbage Collector implémenté, il faut savoir quand l'éxécuter. En effet, son éxécution est coûteuse en temps de calcul. Nous allons donc éviter de l'appeler à chaque fin de calcul.
+
+Dans un premier temps, le Garbage Collector ne sera lancé qu'en dehors des calculs (sinon, on pourrait perturber les mesures de temps d'exécution d'un calcul).
+
+Au début, nous l'appelions tous les 3 calculs. Cependant, on peut avoir une meilleure estimation du l'utilité du Garbage Collector en calculant le nombre d'allocations. Plus il y a d'allocations, plus il y a d'objets susceptibles d'être inutilisables par la suite.
+
+On se fixe donc une borne (une constante). Lorsqu'on dépasse ce nombre d'alloations, on éxécute le Garbage Collector.
 
 \section{Approche défensive}
 
@@ -115,9 +122,80 @@ Ainsi, on se garantit que l'accés à la mémoire ne peut se faire qu'en des end
 
 %object
 
-\section{Organisation de l'interpréteur}
 
-\subsection{Diagramme objet}
+\section{Graphe de dépendances}
 
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=0.4]{graph.png}
+    \label{fig:dep}
+    \caption{Le graphe de dépendances de notre interpréteur}
+  \end{center}
+\end{figure}
+
+
+On peut voir \textsc{Figure} \ref{fig:dep} le graphe de dépendances de notre interpréteur.
+
+On constate que beaucoup de modules utilisent le module mémoire : que ce soit pour créer une mémoire dans \code{main}, le \code{toplevel} qui peut lancer le Garbage collector, ou les autres modules qui la manipulent.
+
+De même, de nombreux modules sont susceptibles de lancer des exceptions.
+
+\section{Mise en oeuvre et tests}
+
+Pour vérifier le fonctionnement de la gestion mémoire, on rajoute une option (\code{-p}) qui affiche le statut du vecteur mémoire.
+
+On parcourt le vecteur, et on affiche O si la case est occupée, et \_ sinon.
+
+On peut ainsi facilement vérifier le fonctionnement du Garbage Collector.
+
+Voici donc un exemple d'éxécution, avec une taille de mémoire initiale de 15, et un appel de Garbage Collector toutes les 30 allocations.
+
+\lstset{language=C++,basicstyle=\ttfamily,breaklines=true, frame=single}
+\begin{lstlisting}
+  $ ./lisp -p
+Creating Memory
+Mem size : 15
+Lisp Interpreter
+Aurele Barriere & Jeremy Thibault
+Printing memory vector
+Lisp? (setq a 1)
+OOOOOOOOO_____
+Lisp? (- 6 5)
+1
+OOOOOOOOOOOOOOOOOOOOO________
+Lisp? (setq f (lambda (n) (+ n 1)))
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO___________
+collecting garbage
+____O____________________O_O_O_O_O_O_OOO_OOO_______________
+Lisp? (+ 1 2)
+3
+OOOOOOOOOOOOO____________O_O_O_O_O_O_OOO_OOO_______________
+Lisp? (exit)
+\end{lstlisting}
+\lstset{language=C++,basicstyle=\ttfamily,breaklines=true}
+
+On observe donc le fonctionnement de la mémoire. Quand on appelle trop de fois la méthode \code{allocate()}, le veteur mémoire s'aggrandit.
+
+Et après le passage du Garbage collector, il ne reste plus qu'un objet des 2 premières commandes (a), et quelques objets pour la fonction f.
+
+Ensuite, les prochains objets sont assignés au début du vecteur.
+
+\section{Conclusion}
+
+Ce projet fut pour nous l'occasion de rassembler tout ce que nous avions appris sur le C++, le Lisp et les interpréteurs.
+
+Pour la première fois, nous avons pu nous intéresser de près à la gestion de la mémoire grâce à l'extension Garbage Collctor.
+
+
+Cependant, notre projet aurait pu être amélioré :
+
+Dans un premier temps, nous aurions pu créer la classe \code{Object}.
+En effet, dans notre implémentation, un objet est un entier, et il existe donc des opérations qui peuvent le modifier. On aurait pu remplacer ce type par une classe contenant un seul champ : l'entier (l'indice dans le vecteur de la mémoire), un constructeur et une méthode pour accéder à l'indice. Toutes les méthodes seraient privées, et on listeraient quelques fonctions et classes amies qui pourraient s'en servir. Ainsi, notre approche aurait été encore plus sécurisée.
+
+Ensuite, il aurait été possible de factoriser certaines fonctions (notamment celles qui interagissent avec les objets), pour une meilleure organisation et pour simplifier la déclaration des amis de la classe \code{memory}.
+
+Enfin, notre Garbage Collector aurait pu bénéficier d'un compactage. En effet, après son éxécution, les objets restant sont éparpillés dans la mémoire. À cause du principe de localité et pour pouvoir réduire la taille de la mémoire occupé (dans le cas, par exemple, d'un programme ayant besoin de beaucoup de mémoire à l'initialisation, puis très peu ensuite), il aurait été utile de les regrouper au début du vecteur. Cependant, il aurait aussi fallu modifier les objets déplacés, puisque de nombreux objets pointent vers d'autres (dans le cas des listes par exemple).
+
+Malgré les possibles améliorations, notre interpréteur est déjà beaucoup plus complet que la version qui nous était fournie. L'interaction avec l'utilisateur est mieux gérée (on ne considère pas qu'il ne se trompe jamais, mais on rattrape les exceptions liées à ses erreurs), et la mémoire est totalement contrôlée. Le code lui-même a égalment été redécouper par endroits pour mieux l'organiser.
 
 \end{document}

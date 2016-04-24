@@ -9,6 +9,8 @@
 
 using namespace std;
 
+#define BEFORE_GC 30 //number of cells to allocate before launching the garbage collector
+
 int using_file;
 char filename[255];
 extern "C" FILE* yyin;
@@ -17,6 +19,7 @@ void yyrestart(FILE *new_file);
 extern Object just_read;
 extern "C" int yyparse();
 extern Memory mem;
+extern int nb_allocate;
 bool end;
 
 void prompt() {
@@ -66,8 +69,6 @@ void eval_file(const char* file, Environment& env) {
 
 void main_loop(Environment& env) {
 
-  unsigned i = 0;
-
   if (!using_file) {
     prompt();
   }
@@ -75,8 +76,10 @@ void main_loop(Environment& env) {
   while (!end && yyparse() == 0) {
     Object l = just_read;
     toplevel_eval(l, env);
-    if (++i % 3 == 0) {
+    mem.print_vect();
 
+    if (nb_allocate > BEFORE_GC) {
+      nb_allocate = 0;
       mem.garbage_collection(env);
     }
     if (!using_file && !end) {
